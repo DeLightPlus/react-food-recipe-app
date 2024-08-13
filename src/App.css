@@ -1,0 +1,23 @@
+#root 
+{
+  width: 100%;
+
+  text-align: center;
+}
+
+header
+{
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+main
+{
+  display: flex;
+  position: absolute;
+
+  justify-content: center;
+  top: 96px;
+  width: 100%;
+}
