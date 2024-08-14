@@ -1,7 +1,30 @@
 import React from 'react';
 import './styles.css';
 
-function Navbar() {
+import { Link, useNavigate } from 'react-router-dom';
+
+function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal}) 
+{
+  const navigate = useNavigate();
+  const handleModal = (e) =>
+  {
+    e.preventDefault(); 
+
+    setShowLoginModal(true);    
+    navigate('/login');    
+    
+    if(showLoginModal && isLoginModal)
+    {
+      setModal(!isLoginModal);
+      navigate('/register');
+    }
+    else if(showLoginModal && !isLoginModal)
+    {
+      setModal(!isLoginModal);
+      navigate('/login');
+    }    
+  }
+
   return (
     <nav className="navbar">
       <div className="container">
@@ -23,6 +46,11 @@ function Navbar() {
             <a href="#" className="nav-link">
               Contact
             </a>
+          </li>
+
+          <li className="nav-item">
+            <Link to="/login" className="nav-link" id="login-link"
+              onClick={(e) => { handleModal(e) }}>  { showLoginModal && isLoginModal ? 'Register' : 'Login' } </Link>            
           </li>
         </ul>
       </div>

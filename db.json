@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": "adminuser",
+      "username": "Kabelo",
+      "email": "matlakalakabelo1@gmail.com",
+      "password": "admin",
+      "subscribed": "true",
+      "role": "admin"
+    },
+    {
+      "id": "user1111",
+      "username": "username1111",
+      "email": "email@email.com",
+      "password": "123",
+      "subscribed": "true",
+      "role": "user"
+    },
+    {
+      "id": "996901723633290425",
+      "username": "Pete",
+      "email": "pete@gee.mail",
+      "password": "123"
+    },
+    {
+      "id": "996901723633290425",
+      "username": "Pete",
+      "email": "pete@gee.mail",
+      "password": "123"
+    },
+    {
+      "id": "413c",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "ce09",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "17cc",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "e894",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "7162",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "c841",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "c308",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "b98e",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "89db",
+      "username": "Pete",
+      "password": "123"
+    },
+    {
+      "id": "f97b",
+      "username": "Pete",
+      "password": "123"
+    }
+  ],
+  "recipies": [],
+  "favoured": []
+}

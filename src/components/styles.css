@@ -1,40 +1,44 @@
-.navbar 
+.navbar-brand
 {
-    background-color: #333;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-  
-  .navbar-brand {
     font-size: 1.5rem;
     font-weight: bold;
     color: #fff;
     text-decoration: none;
-  }
+}
   
-  .nav-links {
+.nav-links 
+{
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-  }
+}
   
-  .nav-item {
+.nav-item 
+{
     margin-right: 20px;
-  }
+}
   
-  .nav-link {
+.nav-link
+{
     color: #fff;
     text-decoration: none;
     transition: color 0.2s ease;
-  }
+}
   
-  .nav-link:hover {
-    color: #ccc;
-  }
+.nav-link:hover, .nav-link#login-link:hover
+{
+  color: #ccc;
+}
+
+.nav-link#login-link
+{
+  position: absolute;
+  right: 12%;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #26d0ee;
+} 
 
   /* SearchRecipe.css */
 .search-recipe 
@@ -74,4 +78,29 @@
 
 .search-button:hover {
   background-color: #3e8e41;
+}
+
+
+
+.close-btn-modal
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: 600;
+  background-color: wheat;
+}
+
+.close-btn-modal:hover
+{
+  background-color: whitesmoke;
+  font-size: 13px;
+}
+
+.icn
+{
+  transform: translate(-2px, -2px);
 }

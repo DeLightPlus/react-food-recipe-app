@@ -9,7 +9,7 @@ function SearchRecipe({searchInput, setSearchInput, searchRecipe})
         value={searchInput} onChange={(e) => {setSearchInput(e.target.value)}} onKeyDown={searchRecipe}
       />
       <button className="search-button"
-        onClick={searchRecipe}>{searchInput != '' ? 'Search': 'Recent/Popular'}</button>
+        onClick={searchRecipe}>{searchInput != '' ? 'Search': '⫯'}</button>
     </div>
   );
 }
