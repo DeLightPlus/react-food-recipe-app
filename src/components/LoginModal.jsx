@@ -14,28 +14,35 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) =>
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async (e) => 
-    {
+    const handleLogin = async (e) => {
         e.preventDefault();
-
-        if(username && password)
-        {
-            //alert(username && password)
-            let inputobj = { "username": username, "password": password };
-            // const token = jwt.sign({ username }, 'process.env.SECRET_KEY', 
-            //     {  expiresIn: '1h', });
-
-            try
-            {
-                const response = await axios.post(`http://localhost:8000/users`, inputobj)
-                const user = response.data;
-                console.log(`Logged in as ${user.username}`);
-                
+      
+        if (username && password) {
+          try {
+            const response = await axios.get(`http://localhost:8000/users/`);
+            const users = response.data;
+      
+            if (users.length > 0) {
+              const foundUser = users.find((user) => user.username === username && user.password === password);
+      
+              if (foundUser) 
+              {
+                console.log(`Logged in as ${foundUser.className}`);
+                // navigate('/');
+                // setShowLoginModal(false);
+              } else {
+                alert("Invalid username or password");
+              }
+            } else {
+              alert("No users found");
             }
-            catch (error) {  alert(error.message);  }            
-            
-        }        
-    };
+          } catch (error) {
+            alert(error.message);
+          }
+        } else {
+          alert("Please enter both username and password");
+        }
+      };
 
     return(
         <div className="Modal">

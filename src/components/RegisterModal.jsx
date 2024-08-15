@@ -1,6 +1,7 @@
 import '../App.css';
 import './styles.css';
 
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -13,25 +14,20 @@ const RegisterModal = ({ showLoginModal, setShowLoginModal }) =>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegistration = (e) => 
-    {
-        e.preventDefault();
-        let reg_info = { id: userId, username: username, email: email, password: password }
+    const handleRegistration = (e) => {
+  e.preventDefault();
+  const reg_info = { id: userId, username: username, email: email, password: password };
 
-        fetch("http://localhost:8000/users", {
-            method: "POST",
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(reg_info)
-        }).then((res) => {
-            alert('Registered successfully.')
-            navigate('/');
-        }).catch((err) => {
-            alert.error('Failed :' + err.message);
-        });
-        // Call API to login user
-        console.log('Registering in user...', reg_info);
-        // navigate('/')
-    };
+  axios.post('http://localhost:8000/users', reg_info)
+    .then((response) => {
+      alert('Registered successfully.');
+      navigate('/login');
+    })
+    .catch((error) => {
+      alert.error(`Failed: ${error.message}`);
+    });
+  console.log('Registering user...', reg_info);
+};
 
     return(
         <div className="Modal">

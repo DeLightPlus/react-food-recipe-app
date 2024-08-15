@@ -104,3 +104,137 @@
 {
   transform: translate(-2px, -2px);
 }
+
+ul.main
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  /* height: 100%; */
+  background: #ccc;
+
+}
+
+.main li
+{  
+  display: block;
+  margin: 2px;
+  padding: 10px;
+  width:  90%;
+  height: 283px;
+  background: #fff;
+  border: 1px solid black;
+  border-radius: 8px;
+
+}
+
+.recipe-card
+{
+  color: black;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.recipe-card img
+{
+  width: 200px;
+  height: 200px;
+  border-radius: 4%;
+}
+
+.recipe-card .info
+{
+  width: 300px
+}
+
+
+.ingred-info
+{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+
+  padding: 2px;
+  margin: 0px 10px 0px 10px;
+  background: #ccc;
+  height: 226px;
+  width: 350px;
+  border-bottom: 1px solid gray;
+  overflow-y: scroll;
+}
+.grid-item 
+{
+  text-align: left;
+  font-weight: 500;
+  background-color: #eee;
+  padding: 1px 2px;
+  border-left: 2px solid black;
+}
+
+/* Add some content to the grid items */
+.grid-item:nth-child(1) {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  content: "Item 1";
+}
+
+.grid-item:nth-child(2) {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  content: "Item 2";
+}
+
+.grid-item:nth-child(3) {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  content: "Item 3";
+}
+
+.grid-item:nth-child(4) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  content: "Item 4";
+}
+
+/* ... and so on for the remaining items */
+
+.grid-item:nth-child(20) {
+  grid-column: 2 / 3;
+  grid-row: 10 / 11;
+  content: "Item 20";
+}
+
+.recipe
+{
+  flex: 1;
+  margin: 0px 1px;
+  height: 100%;
+  background: #ddd;  
+  border-radius: 10px;
+}
+
+.recipe .instructions
+{
+  padding: 0px 10px;
+  height: 86%;
+  overflow-y: scroll;
+  text-align: start;
+}
+
+
+.save
+{
+  position: absolute;
+  top: inherit;
+  margin-top: -8px;
+  right: 5%;
+}
+
+.save .icn
+{
+  font-size: 26px;
+}

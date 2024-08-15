@@ -4,9 +4,12 @@ import Navbar from './components/NavBar.jsx';
 import SearchRecipe from './components/SearchRecipe';
 import LoginModal from './components/LoginModal.jsx';
 import RegisterModal from './components/RegisterModal.jsx';
+import Meal from './components/Meal.jsx';
 
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 
 function FoodRecipeApp() 
@@ -15,29 +18,32 @@ function FoodRecipeApp()
   const [isLoginModal, setModal] = useState(true);
 
   const[searchInput,setSearchInput]=useState("");
-  const[recipe, setRecipe]=useState();
+  const[recipeList, setRecipeList]=useState();
 
   // console.log('modalOpen ', showLoginModal, ',isLogin ',isLoginModal);  
+  useEffect(() => { searchRecipe(); }, [])
 
-  const searchRecipe = (e) =>
+  const searchRecipe = () => 
+  {
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+    axios.get(url)
+      .then(response => 
+      {
+        setRecipeList(response.data.meals);
+        console.log(response.data.meals);
+        setSearchInput("");
+      })
+      .catch(error => { console.error(error); });
+  }
+    
+  const handleSearch = (e) =>
   {   
     console.log(e); 
    
     if(e.key == "Enter" || e.type == "click")
     {
-      const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      fetch(url)
-      .then(res=>res.json())
-      .then(
-        data => 
-        { 
-          setRecipe(data.meals); 
-          console.log(data.meals);
-          setSearchInput(""); 
-        })       
-    }
-    if(recipe)
-      console.log(recipe);    
+      searchRecipe();     
+    }        
   }
   
 
@@ -57,7 +63,7 @@ function FoodRecipeApp()
           <SearchRecipe
             searchInput={searchInput} 
             setSearchInput={setSearchInput}
-            searchRecipe={searchRecipe} 
+            handleSearch={handleSearch} 
           />
 
           <Routes>
@@ -85,7 +91,7 @@ function FoodRecipeApp()
                 />
 
               ) 
-            ):( <Route path='/' element={<>home</>} /> )}
+            ):( <Route path='/' element={<Meal recipeList={recipeList}/>} /> )}
             
           </Routes>
         
