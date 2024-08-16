@@ -40,16 +40,43 @@
   color: #26d0ee;
 } 
 
+.nav-link#profile
+{
+  position: absolute;
+  top: 25%;
+  right: 4%;
+  font-size: 1.3rem;
+  font-weight: 500;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ccc;
+  color: #2a2b2b;
+} 
+
   /* SearchRecipe.css */
 .search-recipe 
 {
   display: flex;
   align-items: center;
   width: 64%;
+  margin-bottom: 10px;
   padding: 0.3rem;
   border: 1px solid #ddd;
-  border-radius: 0.5rem;
+  border-radius: 2.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-recipe select
+{
+  background-color: #fff8eb;
+  font-weight: 600;
+  padding-left: 0.85rem;
+  margin-right: 1px;
+  height: 100%;
+  border-radius: 2.5rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .search-input {
@@ -58,7 +85,10 @@
   margin-right: 0.5rem;
   font-size: 1.5rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 2.5rem;
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .search-input:focus {
@@ -67,17 +97,18 @@
 }
 
 .search-button {
-  padding: 0.5rem 1rem;
-  font-size: 1.5rem;
+  padding: 0.5rem 1rem;  
+  font-size: 1.25rem;
   border: none;
-  border-radius: 0.5rem;
-  background-color: #4CAF50;
+  border-radius: 2.5rem;
+  background-color: #eca115;
   color: #fff;
   cursor: pointer;
 }
 
 .search-button:hover {
-  background-color: #3e8e41;
+  background-color: #cc880a;
+  font-size: 1.2rem;
 }
 
 
@@ -114,7 +145,7 @@ ul.main
   width: 100%;
   /* height: 100%; */
   background: #ccc;
-
+  gap: 10px;
 }
 
 .main li
@@ -123,7 +154,7 @@ ul.main
   margin: 2px;
   padding: 10px;
   width:  90%;
-  height: 283px;
+  height: 335px;
   background: #fff;
   border: 1px solid black;
   border-radius: 8px;
@@ -229,12 +260,25 @@ ul.main
 .save
 {
   position: absolute;
-  top: inherit;
-  margin-top: -8px;
-  right: 5%;
+  top: inherit;  
+  right: 5.2%;
+  margin-top: 1px;
+  width: 3px;
+  height: 38px;
+  background: none;
+  box-shadow: #2a2b2b -2px 2px 5px;
+  border-radius: 75px;
+}
+
+.save button
+{
+  width: 32px;
+  height: 32px;
+  
 }
 
 .save .icn
 {
+  transform: translate(-10px, -10px);
   font-size: 26px;
 }

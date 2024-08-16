@@ -17,8 +17,10 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) =>
     const handleLogin = async (e) => {
         e.preventDefault();
       
-        if (username && password) {
-          try {
+        if (username && password) 
+        {
+          try 
+          {
             const response = await axios.get(`http://localhost:8000/users/`);
             const users = response.data;
       
@@ -26,22 +28,19 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) =>
               const foundUser = users.find((user) => user.username === username && user.password === password);
       
               if (foundUser) 
-              {
-                console.log(`Logged in as ${foundUser.className}`);
-                // navigate('/');
-                // setShowLoginModal(false);
-              } else {
-                alert("Invalid username or password");
-              }
-            } else {
-              alert("No users found");
-            }
-          } catch (error) {
-            alert(error.message);
-          }
-        } else {
-          alert("Please enter both username and password");
-        }
+              {                
+                alert('Successfully logging as ' + foundUser.username);
+                sessionStorage.setItem('user', JSON.stringify({user_id: foundUser.id, username: username, isLoggedIn: true}) )
+                navigate('/');
+                setShowLoginModal(false);
+              } else { alert("Invalid username or password"); }
+
+            } else { alert("No users found");  }
+
+          } 
+          catch (error) { alert(error.message);  }
+
+        } else { alert("Please enter both username and password"); }
       };
 
     return(

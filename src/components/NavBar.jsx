@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal}) 
+function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal, loggedInUser, setLoggedInUser}) 
 {
   const navigate = useNavigate();
+
+  useEffect(() => 
+    {
+      if(!loggedInUser )
+      {
+        navigate('/')
+      }
+      else
+      {
+    
+      }
+
+    }, [])
+
   const handleModal = (e) =>
   {
-    e.preventDefault(); 
+    e.preventDefault();     
 
-    setShowLoginModal(true);    
-    navigate('/login');    
+    setShowLoginModal(true); 
+    navigate('/login')
     
     if(showLoginModal && isLoginModal)
     {
@@ -46,12 +60,41 @@ function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal})
             <a href="#" className="nav-link">
               Contact
             </a>
-          </li>
+          </li>         
 
-          <li className="nav-item">
-            <Link to="/login" className="nav-link" id="login-link"
-              onClick={(e) => { handleModal(e) }}>  { showLoginModal && isLoginModal ? 'Register' : 'Login' } </Link>            
-          </li>
+          { 
+            loggedInUser ? (  
+              <>
+                <li className="nav-item">
+                  <Link to="/myFavoured" className="nav-link">
+                    Favoured <small className="icn">&#9734;</small>
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link to="/myRecipes" className="nav-link">
+                    My Recipies <small className="icn">&#127857;</small>
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <div className="nav-link" id="profile">  
+                  <h2>{loggedInUser.username.substring(0, 1)}</h2>  
+                  </div>
+                </li>
+              </>            
+              
+            ) : (
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link" id="login-link"
+                      onClick={(e) => { handleModal(e) }}>  
+                      { showLoginModal && isLoginModal ? 'Register' : 'Login' } </Link>            
+                  </li>
+            )
+          
+        
+          }
+          
         </ul>
       </div>
     </nav>

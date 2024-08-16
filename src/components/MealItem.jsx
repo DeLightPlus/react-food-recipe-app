@@ -68,9 +68,9 @@ const Mealitem = (getMeal) =>
                     <a href={getMeal.data.strSource}>Watch video</a>
                 </div>
 
-                <div className="save">
+                <button className="save" >
                     <div className="icn">&#9734;</div>
-                </div>
+                </button>
             </div>  
         </>
     )

@@ -35,6 +35,9 @@
       "password": "123"
     }
   ],
-  "recipies": [],
+
+  "recipes": [
+
+  ],
   "favoured": []
 }

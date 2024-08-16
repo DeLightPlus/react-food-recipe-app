@@ -8,20 +8,41 @@ import Meal from './components/Meal.jsx';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 
 
 function FoodRecipeApp() 
 {
+  
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem('user')) || null);
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoginModal, setModal] = useState(true);
 
   const[searchInput,setSearchInput]=useState("");
   const[recipeList, setRecipeList]=useState();
 
-  // console.log('modalOpen ', showLoginModal, ',isLogin ',isLoginModal);  
-  useEffect(() => { searchRecipe(); }, [])
+  useEffect(() => 
+    {
+      if(searchInput == '')
+        searchRecipe(); 
+
+        let user = sessionStorage.getItem('user')
+        console.log(user);
+        
+        if(user !== '' || user !== null)
+        {
+          setLoggedInUser(JSON.parse(user));
+          console.log(loggedInUser);
+          
+          if(loggedInUser !== null)
+            console.log('logged in: ', loggedInUser.isLoggedIn);
+          else console.log('no user loggedIn');
+               
+        }
+
+     }, [])
 
   const searchRecipe = () => 
   {
@@ -56,6 +77,8 @@ function FoodRecipeApp()
             setShowLoginModal={setShowLoginModal}
             isLoginModal={isLoginModal}
             setModal={setModal}
+            loggedInUser={loggedInUser}
+            setLoggedInUser={setLoggedInUser}
           />
         </header> 
 
