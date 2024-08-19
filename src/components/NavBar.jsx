@@ -1,9 +1,17 @@
-import React, { useEffect } from 'react';
 import './styles.css';
+import SearchRecipe from './SearchRecipe';
 
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal, loggedInUser, setLoggedInUser}) 
+function Navbar(
+  {
+    showLoginModal, setShowLoginModal,
+    isLoginModal, setModal, 
+    loggedInUser, setLoggedInUser,
+    searchInput, setSearchInput,
+    handleSearch
+  }) 
 {
   const navigate = useNavigate();
 
@@ -96,6 +104,12 @@ function Navbar({showLoginModal, setShowLoginModal, isLoginModal, setModal, logg
           }
           
         </ul>
+
+        <SearchRecipe
+            searchInput={searchInput} 
+            setSearchInput={setSearchInput}
+            handleSearch={handleSearch} 
+          />
       </div>
     </nav>
   );

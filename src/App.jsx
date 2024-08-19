@@ -1,7 +1,7 @@
 import './App.css';
 
 import Navbar from './components/NavBar.jsx';
-import SearchRecipe from './components/SearchRecipe';
+
 import LoginModal from './components/LoginModal.jsx';
 import RegisterModal from './components/RegisterModal.jsx';
 import Meal from './components/Meal.jsx';
@@ -13,15 +13,17 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 
 function FoodRecipeApp() 
-{
-  
+{  
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem('user')) || null);
 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoginModal, setModal] = useState(true);
 
+  const [showMyRecipeList, setShowMyRecipeList] = useState(false);
+
   const[searchInput,setSearchInput]=useState("");
   const[recipeList, setRecipeList]=useState();
+  const[myRecipeList, setMyRecipeList]=useState([]);
 
   useEffect(() => 
     {
@@ -37,12 +39,28 @@ function FoodRecipeApp()
           console.log(loggedInUser);
           
           if(loggedInUser !== null)
+          {
             console.log('logged in: ', loggedInUser.isLoggedIn);
+
+            handleMyRecipeList();
+            
+
+          }            
           else console.log('no user loggedIn');
                
         }
 
-     }, [])
+     }, []);
+
+  const handleMyRecipeList = () =>
+  {
+    const url = `http://localhost:8000/recipes`;
+
+    axios.get(url)
+    .then(response => { setMyRecipeList(response.data); console.log('myList',response.data) })
+    .catch(error => { console.error(error);  });    
+
+  }
 
   const searchRecipe = () => 
   {
@@ -66,6 +84,8 @@ function FoodRecipeApp()
       searchRecipe();     
     }        
   }
+
+  console.log('_myRecipes:', myRecipeList);
   
 
   return (
@@ -79,22 +99,21 @@ function FoodRecipeApp()
             setModal={setModal}
             loggedInUser={loggedInUser}
             setLoggedInUser={setLoggedInUser}
+
+            searchInput={searchInput} 
+            setSearchInput={setSearchInput}
+            handleSearch={handleSearch}
           />
         </header> 
 
-        <main>
-          <SearchRecipe
-            searchInput={searchInput} 
-            setSearchInput={setSearchInput}
-            handleSearch={handleSearch} 
-          />
+        <main>         
 
           <Routes>
           { showLoginModal ? 
             ( 
+
               isLoginModal ?    
               (
-
                 < Route path='/login' 
                   element={
                     <LoginModal 
@@ -102,9 +121,7 @@ function FoodRecipeApp()
                       setShowLoginModal={setShowLoginModal}
                     />}
                 />
-
               ) : (
-
                 < Route path='/register' 
                   element={
                   <RegisterModal 
@@ -112,12 +129,22 @@ function FoodRecipeApp()
                       setShowLoginModal={setShowLoginModal}
                   />} 
                 />
-
               ) 
-            ):( <Route path='/' element={<Meal recipeList={recipeList}/>} /> )}
+
+
+
+            ):( 
             
-          </Routes>
-        
+            
+                  <Route path='/' element={
+                    <Meal recipeList={recipeList} 
+                          showMyRecipeList={showMyRecipeList}
+                          myRecipeList={myRecipeList} 
+                          setMyRecipeList={setMyRecipeList} 
+                    />} 
+                  /> 
+              )}            
+          </Routes>        
           
         </main> 
       </div>

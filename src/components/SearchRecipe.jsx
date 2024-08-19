@@ -6,7 +6,7 @@ function SearchRecipe({searchInput, setSearchInput, handleSearch})
   return (
     <div className="search-recipe">
       <select onChange={(e) => { console.log('Category:', e.target.value); } } >
-        <option value="">Select By Category</option>
+        <option value="">Category</option>
         <option value="Miscellaneous">Miscellaneous</option>
         <option value="Seafood">Seafood</option>
         <option value="">Desset</option>

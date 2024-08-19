@@ -14,20 +14,22 @@ const RegisterModal = ({ showLoginModal, setShowLoginModal }) =>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleRegistration = (e) => {
-  e.preventDefault();
-  const reg_info = { id: userId, username: username, email: email, password: password };
+    const handleRegistration = (e) => 
+    {
+        e.preventDefault();
+        const reg_info = { id: userId, username: username, email: email, password: password };
 
-  axios.post('http://localhost:8000/users', reg_info)
-    .then((response) => {
-      alert('Registered successfully.');
-      navigate('/login');
-    })
-    .catch((error) => {
-      alert.error(`Failed: ${error.message}`);
-    });
-  console.log('Registering user...', reg_info);
-};
+        axios.post('http://localhost:8000/users', reg_info)
+        .then((response) => 
+            {
+                alert('Registered successfully.');
+                navigate('/login');
+            })
+        .catch((error) => 
+            { alert.error(`Failed: ${error.message}`);  });
+        
+        console.log('Registering user...', reg_info);
+    };
 
     return(
         <div className="Modal">

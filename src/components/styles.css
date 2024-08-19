@@ -43,7 +43,7 @@
 .nav-link#profile
 {
   position: absolute;
-  top: 25%;
+  top: 15%;
   right: 4%;
   font-size: 1.3rem;
   font-weight: 500;
@@ -52,16 +52,22 @@
   border-radius: 50%;
   background: #ccc;
   color: #2a2b2b;
-} 
+}
 
-  /* SearchRecipe.css */
+.nav-link#profile:hover
+{
+  border: #cc880ac7 solid 1px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.603);
+}
+
+/* SearchRecipe.css */
 .search-recipe 
 {
   display: flex;
   align-items: center;
   width: 64%;
-  margin-bottom: 10px;
-  padding: 0.3rem;
+  margin: 2px 0px 4px 0px;
+  padding: 0.1rem;
   border: 1px solid #ddd;
   border-radius: 2.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -71,9 +77,10 @@
 {
   background-color: #fff8eb;
   font-weight: 600;
-  padding-left: 0.85rem;
+  padding-left: 0.5rem;
   margin-right: 1px;
-  height: 100%;
+  height: 44px;
+  width:90px;
   border-radius: 2.5rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -111,8 +118,6 @@
   font-size: 1.2rem;
 }
 
-
-
 .close-btn-modal
 {
   position: absolute;
@@ -138,47 +143,72 @@
 
 ul.main
 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  width: 100%;
-  /* height: 100%; */
-  background: #ccc;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(356px, 1fr));
+  /* grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); */
   gap: 10px;
+  
+  width: 100%;
+  background: #cccccc00; 
+  justify-content: space-between;
 }
 
 .main li
-{  
-  display: block;
-  margin: 2px;
-  padding: 10px;
-  width:  90%;
-  height: 335px;
+{
+  
+  padding: 2px;
   background: #fff;
   border: 1px solid black;
   border-radius: 8px;
-
+  overflow: hidden;
 }
 
 .recipe-card
 {
+  position: relative;
   color: black;
+  background: linear-gradient(180deg, #ffb74b96, #ffb74bc5, transparent);
   display: flex;
-  width: 100%;
-  height: 100%;
+  flex-direction: column;
+  align-items: center;
+ 
+  height: 90%;
+
+}
+
+.recipe-card strong
+{
+  font-size: 18px;
+  transform: translateY(10px);
 }
 
 .recipe-card img
 {
-  width: 200px;
+  width: 256px;
   height: 200px;
   border-radius: 4%;
 }
 
 .recipe-card .info
 {
-  width: 300px
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+
+  border-bottom: #2a2b2b solid 1px;
+}
+
+.ingredients
+{
+  /* background: #2a2b2b80; */
+  margin: 10px;
+}
+
+.ingredients h4
+{
+  text-align: start;
+  padding: 10px;
 }
 
 
@@ -191,12 +221,13 @@ ul.main
 
   padding: 2px;
   margin: 0px 10px 0px 10px;
-  background: #ccc;
+  background: #58585850;
   height: 226px;
   width: 350px;
-  border-bottom: 1px solid gray;
+  /* border-bottom: 1px solid gray; */
   overflow-y: scroll;
 }
+
 .grid-item 
 {
   text-align: left;
@@ -239,29 +270,96 @@ ul.main
   content: "Item 20";
 }
 
-.recipe
+.recipe-modal
 {
-  flex: 1;
-  margin: 0px 1px;
-  height: 100%;
-  background: #ddd;  
-  border-radius: 10px;
-}
+  display: flex;
+  flex-direction: column;
 
-.recipe .instructions
-{
-  padding: 0px 10px;
-  height: 86%;
+  position: fixed;  
+  top: 75px;
+  left: 0;
+  width: 100%;
+  height: 95%;
+  margin: 0px 1px;     
+  border-radius: 1px;
   overflow-y: scroll;
-  text-align: start;
+
+  backdrop-filter: blur(16px);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  z-index: 150;
+  
 }
 
+.recipe-modal .info
+{
+  padding: 10px; 
+  background: #2b2b2b98;
+}
 
-.save
+.recipe-modal .info strong
+{
+  font-size: 32px;
+}
+
+.recipe-modal img
+{
+  width: 34vw;
+}
+
+.recipe-modal .ingredients
+{
+  background: #2a2b2b80;
+  margin: 10px;
+}
+.recipe-modal .ingred-info
+{
+  
+  height: 64%;
+  color: #2a2b2b;
+}
+
+.instruct-container
+{
+
+  display:flex;
+  flex-direction:column;
+  margin-top: 45px;
+  height: 500px;
+}
+
+.recipe-modal .instructions p
+{
+  height: 470px;
+  padding: 0px 10px;
+  background: #2a2b2ba2;
+  overflow-y: scroll;  
+} 
+
+.video-container
+{
+  padding: 126px;
+}
+
+.recipe-modal .btn-container
 {
   position: absolute;
-  top: inherit;  
-  right: 5.2%;
+  top: 8px;
+  right: 50px; 
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  margin-top: 1px; 
+ 
+  background: none;
+ 
+}
+
+.recipe-modal .rec-save, .rec-close, .rec-edit
+{ 
   margin-top: 1px;
   width: 3px;
   height: 38px;
@@ -270,13 +368,43 @@ ul.main
   border-radius: 75px;
 }
 
+.recipe-modal .rec-close .icn
+{
+  transform: translate(-15px, -16px);
+  font-size: 32px;
+}
+.recipe-modal .rec-save .icn
+{
+  transform: translate(-17px, -10px);
+  font-size: 26px;
+}
+.recipe-modal .rec-edit .icn
+{
+  transform: translate(-12px, -8px);
+  font-size: 23px;
+}
+
+.save
+{
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  margin-top: 1px;
+  width: 3px;
+  height: 38px;
+  background: none;
+  box-shadow: #2a2b2b -2px 2px 5px;
+  border-radius: 75px;
+}
+.save:hover
+{
+  background: #cc880a;
+}
 .save button
 {
   width: 32px;
-  height: 32px;
-  
+  height: 32px;  
 }
-
 .save .icn
 {
   transform: translate(-10px, -10px);
