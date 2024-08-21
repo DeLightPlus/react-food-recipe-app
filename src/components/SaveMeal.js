@@ -1,77 +1,64 @@
-// Create a method to add a favored recipe to a user
-export async function SaveFavoredRecipe(recipeId) 
-{ 
-    // Get the user data from local storage
-    const userData = JSON.parse(sessionStorage.getItem('user'));  
-    // If user data is not found, throw an error
-    if (!userData) 
-    {
-        alert("You might need to Login, unless you're just voting..")
-    //   throw new Error('User data not found');
+import axios from 'axios';
+
+export default async function SaveFavoredRecipe(recipeId) {
+  try {
+    const userData = JSON.parse(sessionStorage.getItem('user'));
+    if (!userData) {
+      alert("You might need to Login, unless you're just voting..");
+      return;
     }
-  
-    // Get the user ID from the user data
-    
-  
-    // Fetch the recipe from The Meal DB API
-    const api_recipeResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-    const api_recipeData = await api_recipeResponse.json();
-    const api_recipe = api_recipeData.meals[0];
-  
-    if(userData)
-    {
-        const userId = userData.user_id;
-        // Create a new favored recipe object
-        const favouredRecipe = {
-            user_id: userId,
-            recipe_id: recipeId,
-            recipe: api_recipe
-        };
 
-        console.log(favouredRecipe);  
-        // Send a POST request to the JSON server to add the favored recipe
-        const favoured_res = await fetch(`http://localhost:8000/favoured-recipes`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(favouredRecipe)
-        });    
-        
-        // Check if the request was successful
-        if (favoured_res.ok) { console.log(`Favored recipe added to user ${userId}`); } 
-        else {  console.error(`Error adding favored recipe to user ${userId}`);  }
-        
-    }   
+    const userId = userData.user_id;
+    const apiRecipeResponse = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
+    const apiRecipe = apiRecipeResponse.data.meals[0];
 
-    const recipesResponse = await fetch(`http://localhost:8000/recipes`);
-    const recipes = await recipesResponse.json();
+    const favouredRecipe = {
+      user_id: userId,
+      recipe_id: recipeId,
+      recipe: apiRecipe
+    };
+
+    const favouredRecipesResponse = await axios.get(`http://localhost:8000/favoured-recipes`, {
+      params: {
+        user_id: userId
+      }
+    });
+    const favouredRecipesData = favouredRecipesResponse.data;
+    const existingFavRecipe = favouredRecipesData.find(recipe => recipe.recipe_id === recipeId);
+
+    const method = existingFavRecipe ? 'DELETE' : 'POST';
+    const url = existingFavRecipe ? `http://localhost:8000/favoured-recipes/${existingFavRecipe.id}`
+     : `http://localhost:8000/favoured-recipes`;
+
+    const response = await axios({
+      method,
+      url,
+      data: existingFavRecipe ? null : favouredRecipe
+    });
+
+    if (response.status === 200) {
+      console.log(`Favored recipe ${existingFavRecipe ? 'removed' : 'added'} from user ${userId}`);
+      return !existingFavRecipe;
+    } else {
+      console.error(`Error ${existingFavRecipe ? 'removing' : 'adding'} favored recipe from user ${userId}`);
+    }
+
+    const recipesResponse = await axios.get(`http://localhost:8000/recipes`);
+    const recipes = recipesResponse.data;
     const existingRecipe = recipes.find((r) => r.id === recipeId);
 
-    if(existingRecipe)
-    { 
-        alert('Recipe already added, please login if you would like to add it to your favoured.'); 
-    } 
-    else 
-    {
-        const response = await fetch(`http://localhost:8000/recipes`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(api_recipe)
-        });
-
-        // Check if the request was successful
-        if (response.ok) 
-        { 
-            alert('Recipe already added, please login if you would like to add it to your favoured.'); 
-            console.log(`recipe added to voted`); 
-        } 
-        else {  console.error(`Error adding recipe to voted`);  }
+    if (existingRecipe) {
+      alert('Recipe already added.');
+    } else {
+      const response = await axios.post(`http://localhost:8000/recipes`, apiRecipe);
+      if (response.status === 201) {
+        alert('Recipe added to voted.');
+        console.log(`recipe added to voted`);
+      } else {
+        console.error(`Error adding recipe to voted`);
+      }
     }
-
-    
-    
+  } catch (error) {
+    console.error(error);
   }
-  
-  // Example usage:
-  //addFavoredRecipe('52772');
+}

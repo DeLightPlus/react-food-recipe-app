@@ -145,9 +145,10 @@ ul.main
 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(356px, 1fr));
+  /* grid-auto-rows: 1fr; */
   /* grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr); */
-  gap: 10px;
+  gap: 2px;
   
   width: 100%;
   background: #cccccc00; 
@@ -155,13 +156,13 @@ ul.main
 }
 
 .main li
-{
-  
+{  
   padding: 2px;
   background: #fff;
   border: 1px solid black;
   border-radius: 8px;
   overflow: hidden;
+  height: auto;
 }
 
 .recipe-card
@@ -173,7 +174,7 @@ ul.main
   flex-direction: column;
   align-items: center;
  
-  height: 90%;
+  height: 100%;
 
 }
 
@@ -199,10 +200,18 @@ ul.main
   border-bottom: #2a2b2b solid 1px;
 }
 
-.ingredients
+.ingredients 
 {
-  /* background: #2a2b2b80; */
-  margin: 10px;
+  opacity: 0;
+  height: 0;
+  transform: scale(0);
+  transition: opacity 0.3s, height 0.3s, transform 0.3s;
+}
+
+.main li:hover .ingredients {
+  opacity: 1;
+  height: auto;
+  transform: scale(1);
 }
 
 .ingredients h4
@@ -278,17 +287,19 @@ ul.main
   position: fixed;  
   top: 75px;
   left: 0;
-  width: 100%;
-  height: 95%;
-  margin: 0px 1px;     
-  border-radius: 1px;
+  width: 98.25%;
+  height: 92%;
+  margin: 0px 4px;  
+  padding: 10px;   
+  border-radius: 8px;
   overflow-y: scroll;
 
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(32px);
   background-repeat: no-repeat;
   background-size: cover;
+  box-shadow: wheat 0px -2px 15px;
 
-  z-index: 150;
+  z-index: 150; 
   
 }
 
@@ -409,4 +420,76 @@ ul.main
 {
   transform: translate(-10px, -10px);
   font-size: 26px;
+}
+
+.AddRecipe
+{
+  width: 95%;
+  height: 90vh;
+  align-self: center;
+  margin-bottom: 64px;
+}
+
+.add-row
+{  
+  display: flex;
+  width: 86%;
+}
+
+.add-column
+{  
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;  
+  margin: 4px;
+  text-align: start;
+  gap: 4;
+}
+
+.add-column#img-src-vid
+{
+  min-width: 286px;
+  flex: 1;
+}
+
+.add-column#ingredients, #measures
+{
+  max-width: 300px;
+}
+
+.add-column#instructions
+{
+  flex: 2;
+}
+
+#img-src-vid img
+{
+  margin-bottom: 10px;
+  width: 256px;
+  height: 256px;
+  border-radius: 8px;
+}
+
+.AddRecipe button
+{ 
+  width: 128px;
+}
+
+.AddRecipe input
+{
+  /* height: 32px; */
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.AddRecipe li
+{
+  overflow: hidden;
+  border-bottom: #eca115 solid 1px;
+}
+
+#add_recipe_btn
+{
+  width: 600px;
 }

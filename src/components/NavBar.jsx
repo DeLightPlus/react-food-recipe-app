@@ -2,7 +2,7 @@ import './styles.css';
 import SearchRecipe from './SearchRecipe';
 
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Link, Route, useNavigate } from 'react-router-dom';
 
 function Navbar(
   {
@@ -10,7 +10,8 @@ function Navbar(
     isLoginModal, setModal, 
     loggedInUser, setLoggedInUser,
     searchInput, setSearchInput,
-    handleSearch
+    handleSearch,
+    showMyRecipeList, setShowMyRecipeList
   }) 
 {
   const navigate = useNavigate();
@@ -48,14 +49,15 @@ function Navbar(
   }
 
   return (
+    
     <nav className="navbar">
       <div className="container">
-        <a href="#" className="navbar-brand">
+        <a href="/" className="navbar-brand">
             Food Recipe
         </a>
         <ul className="nav-links">
           <li className="nav-item">
-            <a href="#" className="nav-link">
+            <a href="/" className="nav-link">
               Home
             </a>
           </li>
@@ -72,15 +74,10 @@ function Navbar(
 
           { 
             loggedInUser ? (  
-              <>
+              <>     
                 <li className="nav-item">
-                  <Link to="/myFavoured" className="nav-link">
-                    Favoured <small className="icn">&#9734;</small>
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link to="/myRecipes" className="nav-link">
+                  <Link to="/myRecipes" className="nav-link" 
+                    onClick={setShowMyRecipeList(true)}>
                     My Recipies <small className="icn">&#127857;</small>
                   </Link>
                 </li>
@@ -98,9 +95,7 @@ function Navbar(
                       onClick={(e) => { handleModal(e) }}>  
                       { showLoginModal && isLoginModal ? 'Register' : 'Login' } </Link>            
                   </li>
-            )
-          
-        
+            )              
           }
           
         </ul>
@@ -109,9 +104,29 @@ function Navbar(
             searchInput={searchInput} 
             setSearchInput={setSearchInput}
             handleSearch={handleSearch} 
-          />
+        />
+        {console.log('nav:', showMyRecipeList) }
+        {
+          showMyRecipeList &&       
+          <>
+            <ul className="nav-links">
+              <li className="nav-item">
+                <a> MyFavoured </a>
+              </li>
+
+              <li className="nav-item">
+                <a> Add-Recipes </a>
+              </li>
+            </ul>
+          </>
+        }
+
+
       </div>
+
+      
     </nav>
+ 
   );
 }
 

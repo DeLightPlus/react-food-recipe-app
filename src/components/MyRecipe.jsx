@@ -1,15 +1,17 @@
 import React from "react";
 import MealItem from "./MealItem.jsx";
 import './styles.css';
+import AddRecipe from "./AddRecipe.jsx";
 
-const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList }) =>
+const MyRecipe = ({  showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList }) =>
 {
   console.log('_Recipes:', recipeList);
   console.log('_myRecipes:', myRecipeList);
-
   return (
     <>
-    {/* {
+    <AddRecipe/>
+    
+    {
       showMyRecipeList &&
         <ul className="main" id="my_recipes">        
         {
@@ -23,11 +25,11 @@ const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecip
                     </li> ))  
                 )                
         }        
-        </ul>
-    }<hr></hr> */}
+      </ul>
+    }<hr></hr>
 
       
-      <ul className="main" id="themealdb_recipes">        
+      {/* <ul className="main" id="themealdb_recipes">        
         {
             recipeList.length === 0 ? 
             (
@@ -39,9 +41,9 @@ const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecip
                     </li> ))  
                 )                
         }        
-      </ul>
+      </ul> */}
     </>
   );
 };
 
-export default Meal;
+export default MyRecipe;

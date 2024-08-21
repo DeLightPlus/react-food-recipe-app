@@ -66,9 +66,10 @@ h1
 label 
 {
   display: block;
-  margin-bottom: 4px;
-  font-size: 20px;
-  text-decoration: underline;
+  margin-bottom: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: overline;
 }
 
 form input[type="text"],
@@ -105,20 +106,8 @@ form button
   cursor: pointer;
 }
 
+
 form button:hover 
-{
-  background-color: #3e8e41;
-}
-
-form a 
-{  
-  color: #34a9ec;
-  font-weight: 500;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-form a:hover 
 {
   background-color: #3e8e41;
 }
@@ -135,5 +124,21 @@ button:hover
 {
   background-color: #3e8e41;
 }
+
+
+form a 
+{  
+  color: #34a9ec;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+form a:hover 
+{
+  background-color: #3e8e41;
+}
+
+
 
 
