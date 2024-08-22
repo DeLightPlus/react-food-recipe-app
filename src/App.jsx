@@ -28,6 +28,9 @@ function FoodRecipeApp()
   const [showMyRecipeList, setShowMyRecipeList] = useState(false);
   const[myRecipeList, setMyRecipeList]=useState([]);
 
+  const [showAddRecipeModal, setShowAddRecipeModal] = useState(false);
+  // const[myRecipeList, setMyRecipeList]=useState([]);
+
   useEffect(() => 
     {
       if(searchInput === '')
@@ -85,8 +88,6 @@ function FoodRecipeApp()
       searchRecipe();     
     }        
   }
-
-  
   
 
   return (
@@ -108,6 +109,9 @@ function FoodRecipeApp()
 
             showMyRecipeList={showMyRecipeList}
             setShowMyRecipeList={setShowMyRecipeList}
+
+            showAddRecipeModal={showAddRecipeModal}
+            setShowAddRecipeModal={setShowAddRecipeModal}
           />
         </header> 
 
@@ -157,11 +161,11 @@ function FoodRecipeApp()
                       showMyRecipeList={showMyRecipeList}
                       recipeList={recipeList}                      
                       myRecipeList={myRecipeList} 
-                      setMyRecipeList={setMyRecipeList}  
+                      setMyRecipeList={setMyRecipeList}
+                      showAddRecipeModal={showAddRecipeModal}
+                      setShowAddRecipeModal={setShowAddRecipeModal}  
                     />}
-                  />
-
-                  
+                  />                  
                   
                 </>
             )

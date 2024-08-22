@@ -3,13 +3,20 @@ import MealItem from "./MealItem.jsx";
 import './styles.css';
 import AddRecipe from "./AddRecipe.jsx";
 
-const MyRecipe = ({  showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList }) =>
-{
+const MyRecipe = ({ 
+   showMyRecipeList, 
+   recipeList = [], 
+   myRecipeList = [], setMyRecipeList,
+   showAddRecipeModal, setAddRecipeModal
+   }) => {
   console.log('_Recipes:', recipeList);
   console.log('_myRecipes:', myRecipeList);
   return (
     <>
-    <AddRecipe/>
+    {
+      showAddRecipeModal &&
+      <AddRecipe/>
+    }
     
     {
       showMyRecipeList &&

@@ -11,7 +11,8 @@ function Navbar(
     loggedInUser, setLoggedInUser,
     searchInput, setSearchInput,
     handleSearch,
-    showMyRecipeList, setShowMyRecipeList
+    showMyRecipeList, setShowMyRecipeList,
+    showAddRecipeModal, setAddRecipeModal
   }) 
 {
   const navigate = useNavigate();
@@ -115,7 +116,7 @@ function Navbar(
               </li>
 
               <li className="nav-item">
-                <a> Add-Recipes </a>
+                <a onClick={() => setAddRecipeModal(true)}> Add-Recipes </a>
               </li>
             </ul>
           </>

@@ -20,6 +20,7 @@ const MealItem = (getMeal) =>
     // const [isFav, setIsFavoured] = useState(false);
     let isFav = false;
     // console.log('_getMeal', getMeal.data) 
+    const [showIngredients, setShowIngredients] = useState(false);
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => 
@@ -94,6 +95,8 @@ const MealItem = (getMeal) =>
                             <p>Category: <strong>{getMeal.data.strCategory} |  
                                 {getMeal.data.strArea} Food</strong></p>
                         </div>               
+
+                        
 
                         <div className="ingredients">
                             <h4>Ingredients</h4>

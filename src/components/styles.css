@@ -208,7 +208,7 @@ ul.main
   transition: opacity 0.3s, height 0.3s, transform 0.3s;
 }
 
-.main li:hover .ingredients {
+.main li .showIng_btn:hover:hover .ingredients {
   opacity: 1;
   height: auto;
   transform: scale(1);
@@ -424,10 +424,26 @@ ul.main
 
 .AddRecipe
 {
-  width: 95%;
-  height: 90vh;
-  align-self: center;
+  position: fixed;
+  top: 8%;
+  left: 8px; 
+
+  width: 99%;
+  height: 90%; 
+  
   margin-bottom: 64px;
+  padding-top: 32px;
+  background: linear-gradient(180deg, #1b1b1b,#252525,#2a2b2b, #2a2b2b, #2a2b2b, #2a2b2bb2);
+  z-index: 150;
+}
+
+.AddRecipe form
+{
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
 }
 
 .add-row

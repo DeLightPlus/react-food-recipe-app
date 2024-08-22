@@ -36,6 +36,10 @@ const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecip
                   recipeList.map((recipe) => (
                     <li key={recipe.idMeal}>
                       <MealItem data={recipe} />
+                      <button className="showIng_btn"
+                        onClick={() => setShowIngredients(!showIngredients)}>
+                          Show Ingredients
+                      </button>
                     </li> ))  
                 )                
         }        

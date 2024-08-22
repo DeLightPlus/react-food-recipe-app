@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { recipe } from './recipe';
 
 const AddRecipe = () => 
 {
@@ -25,8 +26,9 @@ const AddRecipe = () =>
   const [newInstruction, setNewInstruction] = useState('');
 
   const [source, setSource] = useState("");  
-  const [dateModified, setDateModified] = useState(null);
+  const [dateModified, setDateModified] = useState( new Date().toLocaleString().slice(0, 9) );
 
+  const [shareRecipe, setShareRecipe] = useState(false)
   const [error, setError] = useState(null);
 
   const handleAddRecipe = async (event) => 
@@ -34,15 +36,44 @@ const AddRecipe = () =>
     event.preventDefault();
     try 
     {
-      const formData = new FormData();
-      formData.append('name', recipeName);
-      formData.append('ingredients', ingredients);
-      formData.append('instructions', instructions);
-      formData.append('image', image);
+      const timestamp = new Date().getTime();
+       
+      recipe.idMeal= String(timestamp).slice(-6);
+      recipe.strMeal = recipeName;
+      recipe.strDrinkAlternate = drinkAlt;
+      recipe.strCategory = category;
+      recipe.strArea = area;
 
-      const response = await axios.post('http://localhost:8000/recipes', formData);
-      console.log(response.data);
-      alert('Recipe added successfully!');
+      recipe.strInstructions = stringifyInstructions();
+      recipe.strMealThumb = imageUrl;
+      recipe.strTags = tags;
+      recipe.strYoutube = vid_Url;        
+    
+      for (let i = 0; i < ingredients.length; i++) 
+      {
+        recipe[`strIngredient${i+1}`] = ingredients[i];
+        recipe[`strMeasure${i+1}`] = measurements[i];
+      }  
+      
+      recipe.strSource = source;
+      recipe.strImageSource = imageUrl;  
+      recipe.strCreativeCommonsConfirmed = null;
+      recipe.dateModified = dateModified;
+      console.log(recipe);      
+      
+      if(shareRecipe)
+      {
+        alert('Notice that you wont be able to edit or update the recipe')
+        const response = await axios.post('http://localhost:8000/recipes', recipe);
+        console.log(response.data);
+        alert('Recipe added successfully!');
+      }
+      else
+      {
+        const response = await axios.post('http://localhost:8000/favoured-recipes', recipe);
+      }
+
+      
     } catch (error) {
       setError(error.message);
     }
@@ -96,29 +127,33 @@ const AddRecipe = () =>
     setImageUrl(URL.createObjectURL(event.target.files[0]));
   };
 
+  console.log(shareRecipe);
+  
   return (
     <div className='AddRecipe'>
       <h2>Add Recipe</h2>
       <form onSubmit={handleAddRecipe}>
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex'}}> 
             <label>
                 Recipe Name:
                 <input type="text" value={recipeName} placeholder='Name of your recipe' 
                     onChange={(event) => setRecipeName(event.target.value)} />
-            </label>           
+            </label>  
 
             <label>
                 Drink:
                 <input type="text" value={drinkAlt} placeholder='Alternative' 
                     onChange={(event) => setDrinkAlt(event.target.value)} />
-            </label>            
+            </label> 
 
             <label>
                 Category:
                 <input type="text" value={category} placeholder='eg. Side, Veg, Dessert, ...'
                     onChange={(event) => setCategory(event.target.value)} />
             </label>
+        </div>
 
+        <div style={{display:'flex'}}>
             <label>
                 Area:
                 <input type="text" value={area} placeholder='eg, South African'
@@ -129,9 +164,8 @@ const AddRecipe = () =>
                 Tags:
                 <input type="text" value={tags} placeholder='eg, StreetFood, FastFood, OnTheGo'
                     onChange={(event) => setTags(event.target.value)} />
-            </label>           
-
-        </div> 
+            </label> 
+        </div><br/> 
 
         <div className='add-row'>
 
@@ -155,6 +189,7 @@ const AddRecipe = () =>
                     Video: <input value={vid_Url} placeholder='youtube link/url'
                                 onChange={(e) => setVid_Url(e.target.value)}/>
                 </label>
+                <label>Date Updated: { dateModified }</label>
             </div>   
                        
             <div className='add-column' id='ingredients'>
@@ -219,7 +254,7 @@ const AddRecipe = () =>
 
         </div>
         
-        <button type="submit" id="add_recipe_btn">Add Recipe</button>
+       <div> Share Recipe|<input type='checkbox' onChange={(e) => {setShareRecipe(e.target.checked); console.log(shareRecipe);}}/> <button type="submit" id="add_recipe_btn">Post Recipe</button></div> 
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
