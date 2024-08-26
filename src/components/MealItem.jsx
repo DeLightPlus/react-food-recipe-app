@@ -1,13 +1,16 @@
 
 import './styles.css';
-import './SaveMeal.js';
+import './SaveFavoured.js';
 
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import RecipeModal from './RecipeModal.jsx';
-import SaveFavoredRecipe from './SaveMeal.js';
+import SaveFavoredRecipe from './SaveFavoured.js';
+import SaveRecipe from './SaveRecipe.js';
+import { Link } from 'react-router-dom';
+import EditRecipeModal from './EditRecipeModal.jsx';
 
-const MealItem = (getMeal) =>
+const MealItem = ({data, isFav}) =>
 {
     let user = JSON.parse(sessionStorage.getItem('user'))
     let userId = null;
@@ -17,9 +20,8 @@ const MealItem = (getMeal) =>
     }
     
     const [showRecipeDetails, setShowRecipeDetails] = useState(false);
-    // const [isFav, setIsFavoured] = useState(false);
-    let isFav = false;
-    // console.log('_getMeal', getMeal.data) 
+    const [showEditRecipeModal, setShowEditRecipeModal] = useState(false);
+    
     const [showIngredients, setShowIngredients] = useState(false);
     const [ingredients, setIngredients] = useState([]);
 
@@ -27,43 +29,22 @@ const MealItem = (getMeal) =>
         {
             const checkFav = async () =>
             {              
-                console.log('uid',userId);
-                
-                if (userId) 
-                {
-                    try 
-                    {
-                      const response = await axios.get(`http://localhost:8000/favoured-recipes`, 
-                        {
-                            params: {
-                            user_id: userId,
-                            recipe_id: getMeal.data.idMeal
-                            }
-                        });
-                  
-                      const data = response.data;
-                      isFav = data.length > 0;
-                  
-                    //   console.log(`${getMeal.data.strMeal}`, data);
-                    } 
-                    catch (error) {  console.error(error);   }
-                  }
-                
+                console.log('uid',userId, isFav);
             }
             checkFav();            
 
             const ingredientsSet = new Set();
             for (let i = 1; i <= 20; i++) 
             {
-                const ingredient = getMeal.data[`strIngredient${i}`];
+                const ingredient = data[`strIngredient${i}`];
                 if (ingredient && !ingredientsSet.has(ingredient)) 
                 {
-                    ingredientsSet.add({"ingredient":ingredient, "measure":getMeal.data[`strMeasure${i}`]});
+                    ingredientsSet.add({"ingredient": ingredient, "measure": data[`strMeasure${i}`]});
                 }
             }
             const ingredientsArray = Array.from(ingredientsSet);
             setIngredients(ingredientsArray);
-        }, [getMeal.data.idMeal, userId]);
+        }, [data.idMeal, userId]);
 
         
 
@@ -73,48 +54,75 @@ const MealItem = (getMeal) =>
                 showRecipeDetails ?
                 (  
                     <RecipeModal
-                        getMeal={getMeal}
+                        data={data}
                         ingredients={ingredients}
                         showRecipeDetails={showRecipeDetails}
                         setShowRecipeDetails={setShowRecipeDetails}
                     />
                 ):(
-                    <div className="recipe-card" >
+                    <div className="recipe-card" >                      
+
                         <button className="save"
-                            onClick={() => { 
-                                isFav =  SaveFavoredRecipe(getMeal.data.idMeal) ; 
-                                console.log(`Recipe is now ${isFav ? 'favored' : 'not favored'}`);
-                            }}>                    
-                            <div className="icn">{isFav ? 'd' : 'e'}</div>
+                            onClick={() => { SaveFavoredRecipe(data.idMeal)  }}>                    
+                            <div className="icn">{ isFav ?  <>🌟</> : <>⭐</>}</div> {/* 🤩 */}
                         </button>
 
-                        <div className ="info" onClick={() => { setShowRecipeDetails(true); }}>
-                            <strong>{getMeal.data.strMeal}</strong><br/>
-                            <img src={getMeal.data.strMealThumb} alt="meal"/>                   
-                            
-                            <p>Category: <strong>{getMeal.data.strCategory} |  
-                                {getMeal.data.strArea} Food</strong></p>
-                        </div>               
-
+                        {
+                            isFav &&
+                            <button className="edit"
+                                onClick={() => { setShowEditRecipeModal(true)  }}>                    
+                                <div className="icn">📝</div>{/* &#128221; ✏️ */}
+                            </button> 
+                        }
                         
 
-                        <div className="ingredients">
-                            <h4>Ingredients</h4>
-                            <div className="ingred-info">                                
-                                {/* {console.log('37', ingredients)} */}
-                                <>
-                                    {
-                                        ingredients.map((ingred, index) => (
-                                        <div className="grid-item" key={index}>›{ ingred.ingredient } <small>({ingred.measure})</small></div>
-                                        ))
-                                    }
-                                </>
-                            </div>
-                            <p>visit source website: <a href={getMeal.data.strSource}> Link </a></p>
-                        </div> 
+                        <div className ="info" >
+                            <strong>{data.strMeal} ({data.strArea} Food)</strong><br/>
+                            <img src={data.strMealThumb} alt="🍱"/>                   
+                            
+                            <p>Category: <strong>{data.strCategory} </strong></p>
+                        </div>   
+                        {!showIngredients && <Link className='link-item'
+                            onClick={() => { setShowIngredients(!showRecipeDetails); }}> Show Ingredients</Link>}
+                        <Link className='link-item'
+                            onClick={() => { setShowRecipeDetails(!showIngredients); }}> Show More</Link>
+                        {
+                            showIngredients && (
+                            <div className="ingredients">
+                                <h4>Ingredients</h4>
+                                <div className="ingred-info">  
+                                    <>
+                                        {
+                                            ingredients.map((ingred, index) => (
+                                            <div className="grid-item" key={index}>›{ ingred.ingredient } <small>({ingred.measure})</small></div>
+                                            ))
+                                        }
+                                    </>
+                                </div>
+                                <p>visit source website: <a href={data.strSource}> Link </a></p>
+                            </div> )
+                        }                        
+
+                        {
+                            !isFav &&
+                            <button className="like"
+                            onClick={() => { SaveRecipe(data.idMeal) }}>                    
+                            <div className="icn">{ <>❤️</>}</div> 
+                            {/*💕👌👍✨♥️*/}
+                        </button>}
                     </div>  
                 )
-
+            }
+            {console.log(showEditRecipeModal)}
+            {
+                showEditRecipeModal && (
+                    
+                    <EditRecipeModal data={data} 
+                        showEditRecipeModal={showEditRecipeModal} 
+                        setShowEditRecipeModal={setShowEditRecipeModal}
+                    />
+                   
+                )
             }
 
         </>

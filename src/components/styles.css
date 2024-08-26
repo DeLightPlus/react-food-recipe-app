@@ -16,15 +16,35 @@
   
 .nav-item 
 {
-    margin-right: 20px;
+   /* margin-right: 20px; */
+    background: #6b6b6b;  
+    padding: 1px 6px;
+    margin: 4px;
+    width: fit-content;
+
+    border-radius: 25px;
 }
   
 .nav-link
 {
+    font-size: 15px;
     color: #fff;
     text-decoration: none;
     transition: color 0.2s ease;
 }
+
+.nav-item select
+{
+  background-color: #2c2c2c;
+  font-weight: 600;
+  padding: 1px 10px;
+  height: 100%;
+  width:100%;
+  border-radius: 2.5rem;
+  /* border-top-right-radius: 0;
+  border-bottom-right-radius: 0; */
+}
+
   
 .nav-link:hover, .nav-link#login-link:hover
 {
@@ -42,8 +62,8 @@
 
 .nav-link#profile
 {
-  position: absolute;
-  top: 15%;
+  position: fixed;
+  top: 3%;
   right: 4%;
   font-size: 1.3rem;
   font-weight: 500;
@@ -52,6 +72,7 @@
   border-radius: 50%;
   background: #ccc;
   color: #2a2b2b;
+
 }
 
 .nav-link#profile:hover
@@ -65,37 +86,28 @@
 {
   display: flex;
   align-items: center;
-  width: 64%;
-  margin: 2px 0px 4px 0px;
+  width: 56%;
+  margin: 2px 0px 2px 0px;
   padding: 0.1rem;
   border: 1px solid #ddd;
   border-radius: 2.5rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-.search-recipe select
+.search-input
 {
-  background-color: #fff8eb;
-  font-weight: 600;
-  padding-left: 0.5rem;
-  margin-right: 1px;
-  height: 44px;
-  width:90px;
-  border-radius: 2.5rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.search-input {
   flex: 1;
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  font-size: 1.5rem;
+  padding: 0.25rem 1rem;
+  margin-right: 0.1rem;
+  font-size: 1.6svw;
+
+  height: 2rem;
+  width: 100%;
+
   border: none;
   border-radius: 2.5rem;
 
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .search-input:focus {
@@ -104,13 +116,16 @@
 }
 
 .search-button {
-  padding: 0.5rem 1rem;  
+  padding: 0.2rem 1rem;  
   font-size: 1.25rem;
   border: none;
   border-radius: 2.5rem;
   background-color: #eca115;
   color: #fff;
   cursor: pointer;
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .search-button:hover {
@@ -174,6 +189,7 @@ ul.main
   flex-direction: column;
   align-items: center;
  
+  
   height: 100%;
 
 }
@@ -200,18 +216,18 @@ ul.main
   border-bottom: #2a2b2b solid 1px;
 }
 
-.ingredients 
+.recipe-card .ingredients 
 {
-  opacity: 0;
-  height: 0;
-  transform: scale(0);
-  transition: opacity 0.3s, height 0.3s, transform 0.3s;
+  transform: scale(0.9);
+  /* transition: opacity 0.3s, height 0.3s, transform 0.3s; */
 }
 
-.main li .showIng_btn:hover:hover .ingredients {
+.main:hover .ingredients
+{
   opacity: 1;
   height: auto;
-  transform: scale(1);
+  transform: scale(1
+  );
 }
 
 .ingredients h4
@@ -235,6 +251,7 @@ ul.main
   width: 350px;
   /* border-bottom: 1px solid gray; */
   overflow-y: scroll;
+  
 }
 
 .grid-item 
@@ -285,19 +302,19 @@ ul.main
   flex-direction: column;
 
   position: fixed;  
-  top: 75px;
+  top: 13%;
   left: 0;
-  width: 98.25%;
-  height: 92%;
+  width: 99.5svw;
+  height: 87svh;
   margin: 0px 4px;  
   padding: 10px;   
   border-radius: 8px;
   overflow-y: scroll;
 
-  backdrop-filter: blur(32px);
+  /* backdrop-filter: blur(64px); */
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: wheat 0px -2px 15px;
+  box-shadow: wheat 0px -2px 10px;
 
   z-index: 150; 
   
@@ -317,6 +334,7 @@ ul.main
 .recipe-modal img
 {
   width: 34vw;
+  height: 32vw;
 }
 
 .recipe-modal .ingredients
@@ -327,22 +345,23 @@ ul.main
 .recipe-modal .ingred-info
 {
   
-  height: 64%;
+  height: 54%;
   color: #2a2b2b;
 }
 
-.instruct-container
+.instructions
 {
+  position: relative;
 
   display:flex;
   flex-direction:column;
   margin-top: 45px;
-  height: 500px;
+  height: 450px;
 }
 
 .recipe-modal .instructions p
 {
-  height: 470px;
+  height: 100%;
   padding: 0px 10px;
   background: #2a2b2ba2;
   overflow-y: scroll;  
@@ -403,7 +422,7 @@ ul.main
   margin-top: 1px;
   width: 3px;
   height: 38px;
-  background: none;
+  background: #2a2b2b;
   box-shadow: #2a2b2b -2px 2px 5px;
   border-radius: 75px;
 }
@@ -418,38 +437,109 @@ ul.main
 }
 .save .icn
 {
-  transform: translate(-10px, -10px);
+  transform: translate(-17px, -10px);
   font-size: 26px;
+}
+
+.edit
+{
+  position: absolute;
+  top: 64px;
+  right: 4px;
+  margin-top: 1px;
+  width: 3px;
+  height: 38px;
+  background: none;
+  box-shadow: #2a2b2b -2px 2px 5px;
+  border-radius: 75px;
+}
+.edit:hover
+{
+  background: #ffa600;
+}
+.edit button
+{
+  width: 32px;
+  height: 32px;  
+}
+.edit .icn
+{
+  transform: translate(-14px, -8px);
+  font-size: 24px;
+}
+
+.like
+{
+  position: absolute;
+  bottom: 8px;
+  right: 4px;
+  margin-top: 1px;
+  width: 3px;
+  height: 38px;
+  background: none;
+  box-shadow: #2a2b2b -2px 2px 5px;
+  border-radius: 75px;
+}
+.like:hover
+{
+  background: #ffa600;
+}
+.like button
+{
+  width: 32px;
+  height: 32px;  
+}
+.like .icn
+{
+  transform: translate(-17px, -8px);
+  font-size: 26px;
+}
+
+.close
+{
+  position: fixed;
+  top: 12%;
+  right: 1%; 
+  margin-top: 16px;
+  margin-right: 16px;
+}
+
+.close button
+{
+  width: 32px
 }
 
 .AddRecipe
 {
   position: fixed;
-  top: 8%;
-  left: 8px; 
+  top: 13%;
+  left: 1%; 
 
   width: 99%;
-  height: 90%; 
+  height: 87%; 
   
   margin-bottom: 64px;
   padding-top: 32px;
   background: linear-gradient(180deg, #1b1b1b,#252525,#2a2b2b, #2a2b2b, #2a2b2b, #2a2b2bb2);
   z-index: 150;
+  overflow-y: scroll;
 }
 
 .AddRecipe form
-{
- 
+{ 
   display: flex;
   flex-direction: column;
   align-items: center;
   height: auto;
+  gap:0;
 }
 
 .add-row
 {  
   display: flex;
   width: 86%;
+  justify-content: center;
+  text-align: center;
 }
 
 .add-column
@@ -458,7 +548,7 @@ ul.main
   flex-direction: column;
   min-width: 200px;  
   margin: 4px;
-  text-align: start;
+  text-align: center;
   gap: 4;
 }
 
@@ -508,4 +598,36 @@ ul.main
 #add_recipe_btn
 {
   width: 600px;
+}
+
+.Edit-Recipe-Modal
+{
+  position: fixed;
+  top: 9%;
+  right: 0;
+  background: #252525;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+  z-index: 200;
+}
+
+
+.Edit-Recipe-Modal#active
+{
+  opacity: 1;
+  height: auto;
+  transform: scale(1);
+  transition: opacity 0.3s, height 0.3s, transform 0.3s;
+
+  
+}
+
+.Edit-Recipe-Modal .info
+{
+  height: 700px;
+  overflow-y: scroll;
 }

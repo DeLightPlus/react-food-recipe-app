@@ -10,9 +10,6 @@ import addRecipe from './components/AddRecipe.jsx';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import AddRecipe from './components/AddRecipe.jsx';
-
-
 
 
 function FoodRecipeApp() 
@@ -26,10 +23,12 @@ function FoodRecipeApp()
   const[recipeList, setRecipeList]=useState();
 
   const [showMyRecipeList, setShowMyRecipeList] = useState(false);
-  const[myRecipeList, setMyRecipeList]=useState([]);
+  const[myRecipeList, setMyRecipeList]=useState([]); 
 
   const [showAddRecipeModal, setShowAddRecipeModal] = useState(false);
-  // const[myRecipeList, setMyRecipeList]=useState([]);
+
+  const [showMyFavoured, setShowMyFavouredRecipes] = useState(false); 
+  const[myFavouredRecipes, setMyFavouredRecipes]=useState([]);
 
   useEffect(() => 
     {
@@ -48,11 +47,15 @@ function FoodRecipeApp()
           {
             console.log('logged in: ', loggedInUser.isLoggedIn);
             // setShowLoginModal(false);  
-            handleMyRecipeList();       
+            handleMyRecipeList(); 
+            handleMyFavouredRecipes(loggedInUser.user_id);      
           }            
           else console.log('no user loggedIn');
                
         }
+
+        console.log(myFavouredRecipes);
+        
 
      }, []);
 
@@ -65,6 +68,17 @@ function FoodRecipeApp()
 
   }
 
+  const handleMyFavouredRecipes = (user_Id) =>
+    {
+      console.log('app.7 id:', user_Id);
+      
+      const url = `http://localhost:8000/favoured-recipes?user_id=${user_Id}`;
+      axios.get(url)
+      .then(response => { setMyFavouredRecipes(response.data); console.log('myFavList.response',response.data) })
+      .catch(error => { console.error(error);  });    
+  
+    }
+
   const searchRecipe = () => 
   {
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
@@ -72,17 +86,16 @@ function FoodRecipeApp()
       .then(response => 
       {
         setRecipeList(response.data.meals);
-        console.log(response.data.meals);
+        // console.log(response.data.meals);
         setSearchInput("");
         setShowMyRecipeList(false);
+        setShowMyFavouredRecipes(false);
       })
       .catch(error => { console.error(error); });
   }
     
   const handleSearch = (e) =>
   {   
-    console.log(e); 
-   
     if(e.key == "Enter" || e.type == "click")
     {
       searchRecipe();     
@@ -110,6 +123,9 @@ function FoodRecipeApp()
             showMyRecipeList={showMyRecipeList}
             setShowMyRecipeList={setShowMyRecipeList}
 
+            showMyFavoured={showMyFavoured}
+            setShowMyFavouredRecipes={setShowMyFavouredRecipes}
+
             showAddRecipeModal={showAddRecipeModal}
             setShowAddRecipeModal={setShowAddRecipeModal}
           />
@@ -120,8 +136,6 @@ function FoodRecipeApp()
           <Routes>
           { showLoginModal ? //checkLoggedIn
             (
-
-
               isLoginModal ?    
               (
                 < Route path='/login' 
@@ -142,8 +156,7 @@ function FoodRecipeApp()
               )
 
 
-            ):( <>                
-
+            ):( <>           
                   {
                     // !showMyRecipeList &&
                     <Route path='/' element={
@@ -152,6 +165,7 @@ function FoodRecipeApp()
                         recipeList={recipeList}                             
                         myRecipeList={myRecipeList} 
                         setMyRecipeList={setMyRecipeList} 
+                        myFavouredRecipes = {myFavouredRecipes}
                       />}
                     />
                   }                  
@@ -159,9 +173,12 @@ function FoodRecipeApp()
                   <Route path="/myRecipes" element={
                     <MyRecipe
                       showMyRecipeList={showMyRecipeList}
+                      showMyFavoured={showMyFavoured}
                       recipeList={recipeList}                      
                       myRecipeList={myRecipeList} 
                       setMyRecipeList={setMyRecipeList}
+                      myFavouredRecipes = {myFavouredRecipes}
+                      setMyFavouredRecipes={setMyFavouredRecipes}
                       showAddRecipeModal={showAddRecipeModal}
                       setShowAddRecipeModal={setShowAddRecipeModal}  
                     />}
@@ -173,8 +190,7 @@ function FoodRecipeApp()
           </Routes>        
           
         </main> 
-      </div>
-      
+      </div>      
       </BrowserRouter>    
     </>
   )

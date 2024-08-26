@@ -4,10 +4,11 @@ import './styles.css';
 import AddRecipe from "./AddRecipe.jsx";
 
 const MyRecipe = ({ 
-   showMyRecipeList, 
+   showMyRecipeList, showMyFavoured,
    recipeList = [], 
    myRecipeList = [], setMyRecipeList,
-   showAddRecipeModal, setAddRecipeModal
+   myFavouredRecipes = [], setMyFavouredRecipes,
+   showAddRecipeModal, setShowAddRecipeModal
    }) => {
   console.log('_Recipes:', recipeList);
   console.log('_myRecipes:', myRecipeList);
@@ -15,40 +16,53 @@ const MyRecipe = ({
     <>
     {
       showAddRecipeModal &&
-      <AddRecipe/>
+      <AddRecipe 
+        showAddRecipeModal={showAddRecipeModal}
+        setShowAddRecipeModal={setShowAddRecipeModal}/>
     }
+    { showMyFavoured && <h2> Favoured Recipes () </h2> }
+    <ul className="main" id="my_fav_recipes">     
     
-    {
-      showMyRecipeList &&
-        <ul className="main" id="my_recipes">        
-        {
+    { 
+      myFavouredRecipes === 0 ?
+        (<>No Recipes in your Favoured Recipes</>): 
+        (          
+            showMyFavoured &&
+            <>
+            {myFavouredRecipes.map((recipe) =>    
+              (
+                <li key={recipe.recipe.id}>
+                          <MealItem data={recipe.recipe} isFav={true}/>
+                      </li> 
+                    ))}
+            </>          
+        )
+    } 
+    </ul> 
+
+    <hr></hr>
+    <h2> My Recipes ({myRecipeList.length}) </h2>
+    {   
+        showMyRecipeList &&  
+        <ul className="main" id="my_recipes"> 
+        {     
+        
             myRecipeList.length === 0 ? 
             (
               <p className="notSearch">You haven't added any recipe, would you like to add your own recipes ? <a> Click Here</a> </p>              
             ) : (
-                  myRecipeList.map((recipe) => (
-                    <li key={recipe.id}>
-                      <MealItem data={recipe} />
-                    </li> ))  
-                )                
-        }        
-      </ul>
-    }<hr></hr>
-
-      
-      {/* <ul className="main" id="themealdb_recipes">        
-        {
-            recipeList.length === 0 ? 
-            (
-              <p className="notSearch"> Not found, would you like to add your own recipes ? <a> Click Here</a> </p>              
-            ) : (
-                  recipeList.map((recipe) => (
-                    <li key={recipe.idMeal}>
-                      <MealItem data={recipe} />
-                    </li> ))  
-                )                
-        }        
-      </ul> */}
+                myRecipeList.map((recipe) => (
+                  <li key={recipe.id}>
+                    <MealItem data={recipe} 
+                      isFav={ myFavouredRecipes.some(favouredRecipe => favouredRecipe.recipe_id === recipe.idMeal) }
+                    />
+                    {console.log('rec ', recipe,'X myFavRec ', myFavouredRecipes.some(favouredRecipe => favouredRecipe.recipe_id === recipe.idMeal))}
+                  </li> ))  
+                )
+        }         
+        </ul> 
+       
+    }
     </>
   );
 };

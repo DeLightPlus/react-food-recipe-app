@@ -2,7 +2,7 @@ import React from "react";
 import MealItem from "./MealItem.jsx";
 import './styles.css';
 
-const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList }) =>
+const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList, myFavouredRecipes=[] }) =>
 {
   console.log('_Recipes:', recipeList);
   console.log('_myRecipes:', myRecipeList);
@@ -29,19 +29,15 @@ const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecip
       
       <ul className="main" id="themealdb_recipes">        
         {
-            recipeList.length === 0 ? 
-            (
-              <p className="notSearch"> Not found, would you like to add your own recipes ? <a> Click Here</a> </p>              
-            ) : (
-                  recipeList.map((recipe) => (
-                    <li key={recipe.idMeal}>
-                      <MealItem data={recipe} />
-                      <button className="showIng_btn"
-                        onClick={() => setShowIngredients(!showIngredients)}>
-                          Show Ingredients
-                      </button>
-                    </li> ))  
-                )                
+            recipeList.length !== 0 &&             
+            recipeList.map((recipe) => (
+              <li key={recipe.idMeal}>
+                <MealItem data={recipe} 
+                  isFav={ myFavouredRecipes.some(favouredRecipe => favouredRecipe.recipe_id === recipe.idMeal) }
+                />
+                
+              </li> ))  
+                               
         }        
       </ul>
     </>

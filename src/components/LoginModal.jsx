@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const LoginModal = ({ showLoginModal, setShowLoginModal }) => 
-{    
-  
+{      
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -32,7 +31,10 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) =>
                 alert('Successfully logging as ' + foundUser.username);
                 sessionStorage.setItem('user', JSON.stringify({user_id: foundUser.id, username: username, isLoggedIn: true}) )
                 navigate('/');
+                window.location.reload();
                 setShowLoginModal(false);
+                
+                
               } else { alert("Invalid username or password"); }
 
             } else { alert("No users found");  }

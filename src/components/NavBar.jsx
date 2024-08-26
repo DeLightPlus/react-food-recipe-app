@@ -12,7 +12,8 @@ function Navbar(
     searchInput, setSearchInput,
     handleSearch,
     showMyRecipeList, setShowMyRecipeList,
-    showAddRecipeModal, setAddRecipeModal
+    showMyFavoured, setShowMyFavouredRecipes,
+    showAddRecipeModal, setShowAddRecipeModal
   }) 
 {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Navbar(
       }
       else
       {
-    
+        console.log(loggedInUser);        
       }
 
     }, [])
@@ -75,19 +76,12 @@ function Navbar(
 
           { 
             loggedInUser ? (  
-              <>     
-                <li className="nav-item">
-                  <Link to="/myRecipes" className="nav-link" 
-                    onClick={setShowMyRecipeList(true)}>
-                    My Recipies <small className="icn">&#127857;</small>
-                  </Link>
-                </li>
-
-                <li className="nav-item">
+              <> 
+                <div className="">
                   <div className="nav-link" id="profile">  
-                  <h2>{loggedInUser.username.substring(0, 1)}</h2>  
+                    <h2>{loggedInUser.username.substring(0, 1)}</h2>  
                   </div>
-                </li>
+                </div>
               </>            
               
             ) : (
@@ -101,28 +95,55 @@ function Navbar(
           
         </ul>
 
-        <SearchRecipe
+        { !showAddRecipeModal && 
+          <SearchRecipe
             searchInput={searchInput} 
             setSearchInput={setSearchInput}
             handleSearch={handleSearch} 
-        />
-        {console.log('nav:', showMyRecipeList) }
-        {
-          showMyRecipeList &&       
-          <>
-            <ul className="nav-links">
-              <li className="nav-item">
-                <a> MyFavoured </a>
-              </li>
+          />
+        } 
 
-              <li className="nav-item">
-                <a onClick={() => setAddRecipeModal(true)}> Add-Recipes </a>
-              </li>
-            </ul>
-          </>
+        <ul className="nav-links" style={{alignSelf:'start'}}>
+        
+        <li className="nav-item">
+          <select onChange={(e) => { console.log('Category:', e.target.value); } } >
+                    {/* <input placeholder='Category'/> */}
+              <option value=""> Category </option>
+              <option value="Miscellaneous">Miscellaneous</option>
+              <option value="Seafood">Seafood</option>
+              <option value="">Desset</option>
+              <option value="">Side</option>
+              <option value="">Beef</option>
+          </select>
+        </li>
+
+        { 
+          loggedInUser &&
+          <li className="nav-item">
+            <Link to="/myRecipes" className="nav-link" 
+                onClick={() => setShowMyRecipeList(true)}>
+              MyRecipies 
+              {/* <small className="icn">&#127857;</small> */}
+            </Link>
+          </li>          
         }
+        
+        {
+            showMyRecipeList &&       
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" 
+                  onClick={() => setShowMyFavouredRecipes(true)}> MyFavoured </Link>
+              </li>
 
+              <li className="nav-item">
+                <Link className="nav-link" 
+                  onClick={() => setShowAddRecipeModal(true)}> Add-Recipes </Link>
+              </li>          
+            </>
+          }
 
+        </ul>
       </div>
 
       

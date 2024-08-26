@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { recipe } from './recipe';
 
-const AddRecipe = () => 
+const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) => 
 {
   const [recipeName, setRecipeName] = useState('');
   const [drinkAlt, setDrinkAlt] = useState(null);
@@ -141,12 +141,6 @@ const AddRecipe = () =>
             </label>  
 
             <label>
-                Drink:
-                <input type="text" value={drinkAlt} placeholder='Alternative' 
-                    onChange={(event) => setDrinkAlt(event.target.value)} />
-            </label> 
-
-            <label>
                 Category:
                 <input type="text" value={category} placeholder='eg. Side, Veg, Dessert, ...'
                     onChange={(event) => setCategory(event.target.value)} />
@@ -154,6 +148,13 @@ const AddRecipe = () =>
         </div>
 
         <div style={{display:'flex'}}>
+
+            <label>
+                Drink:
+                <input type="text" value={drinkAlt} placeholder='Alternative' 
+                    onChange={(event) => setDrinkAlt(event.target.value)} />
+            </label> 
+
             <label>
                 Area:
                 <input type="text" value={area} placeholder='eg, South African'
@@ -165,10 +166,73 @@ const AddRecipe = () =>
                 <input type="text" value={tags} placeholder='eg, StreetFood, FastFood, OnTheGo'
                     onChange={(event) => setTags(event.target.value)} />
             </label> 
-        </div><br/> 
+        </div>        
 
-        <div className='add-row'>
+      <div className="add-row">
+          <div className='add-column' id='ingredients'>
+                {
+                    (ingredients.length < 20) && 
+                    <>
+                        <label>Ingredient: </label>
+                        <input value={newIngredient} placeholder={`Ingredient ${ingredients.length+1}:`}
+                            onChange={(event) => setNewIngredient(event.target.value)} />
+                        <button onClick={handleAddIngredient}>Add {(ingredients.length < 20) && 20 - ingredients.length}</button>
+                    </>
+                }                    
 
+                <ul className='add-ingredients'><p>Ingredients:</p>
+                    {/* {console.log(ingredients)} */}
+                    {   
+                        ingredients.map((ingredient, index) => ( <li key={index}>{index+1}. {ingredient}</li> ))
+                    }
+                </ul>
+          </div>
+
+          <div className='add-column' id='measures'>
+                {
+                    (measurements.length < 20) && 
+                    <>
+                        <label>Measure</label>
+                        <input value={newMeasure} placeholder={`Measure For Ingredient ${measurements.length+1}`}
+                            onChange={(event) => setNewMeasure(event.target.value)} />
+                        <button onClick={handleAddMeasurement}>Add {(measurements.length < 20) && 20 - measurements.length}</button>
+                    </>
+                }   
+                <ul className='add-ingredients'><p>Measures</p>
+                    {/* {console.log(ingredients)} */}
+                    {   
+                        measurements.map((measure, index) => ( <li key={index}>measure{index+1}: {measure}</li> ))
+                    }
+                </ul>
+          </div>  
+      </div>
+
+      <div className="add-row">
+          <div className='add-column' id='instructions'>
+                {
+                    (instructions.length < 20) && 
+                    <div>
+                        <label> Add Instruction: </label>
+                        <input value={newInstruction} placeholder={`instruction, Step ${instructions.length+1}`}
+                            onChange={(event) => setNewInstruction(event.target.value)} />
+                        <button onClick={handleAddInstruction}>Add (Step {instructions.length+1})</button>
+                    </div>
+                }               
+                
+                {/* <h2>Instructions:</h2>
+                <ol className='instructions'>
+                    {instructions.map((instruction, index) => (
+                    <li key={index}>{instruction}</li>
+                    ))}
+                </ol> */}
+
+                <p>Instructions :</p> {/* (stringified) */}
+                <pre>{stringifyInstructions()}</pre>
+                <br />
+          </div>
+      </div>
+
+      <div className='add-row'>
             <div className='add-column' id='img-src-vid'>
                 <label>
                     Image:
@@ -190,73 +254,16 @@ const AddRecipe = () =>
                                 onChange={(e) => setVid_Url(e.target.value)}/>
                 </label>
                 <label>Date Updated: { dateModified }</label>
-            </div>   
-                       
-            <div className='add-column' id='ingredients'>
-                {
-                    (ingredients.length < 20) && 
-                    <>
-                        <label>Ingredient: </label>
-                        <input value={newIngredient} placeholder={`Ingredient ${ingredients.length+1}:`}
-                            onChange={(event) => setNewIngredient(event.target.value)} />
-                        <button onClick={handleAddIngredient}>Add {(ingredients.length < 20) && 20 - ingredients.length}</button>
-                    </>
-                }                    
-
-                <ul className='add-ingredients'><p>Ingredients:</p>
-                    {/* {console.log(ingredients)} */}
-                    {   
-                        ingredients.map((ingredient, index) => ( <li key={index}>{index+1}. {ingredient}</li> ))
-                    }
-                </ul>
-            </div>
-
-            <div className='add-column' id='measures'>
-                {
-                    (measurements.length < 20) && 
-                    <>
-                        <label>Measure</label>
-                        <input value={newMeasure} placeholder={`Measure For Ingredient ${measurements.length+1}`}
-                            onChange={(event) => setNewMeasure(event.target.value)} />
-                        <button onClick={handleAddMeasurement}>Add {(measurements.length < 20) && 20 - measurements.length}</button>
-                    </>
-                }   
-                <ul className='add-ingredients'><p>Measures</p>
-                    {/* {console.log(ingredients)} */}
-                    {   
-                        measurements.map((measure, index) => ( <li key={index}>measure{index+1}: {measure}</li> ))
-                    }
-                </ul>
-            </div>            
-
-            <div className='add-column' id='instructions'>
-                {
-                    (instructions.length < 20) && 
-                    <>
-                        <label> Add Instruction: </label>
-                        <input value={newInstruction} placeholder={`instruction, Step ${instructions.length+1}`}
-                            onChange={(event) => setNewInstruction(event.target.value)} />
-                        <button onClick={handleAddInstruction}>Add (Step {instructions.length+1})</button>
-                    </>
-                }               
-                
-                {/* <h2>Instructions:</h2>
-                <ol className='instructions'>
-                    {instructions.map((instruction, index) => (
-                    <li key={index}>{instruction}</li>
-                    ))}
-                </ol> */}
-
-                <p>Instructions :</p> {/* (stringified) */}
-                <pre>{stringifyInstructions()}</pre>
-                <br />
-            </div>
-
-        </div>
+            </div>  
+      </div>
         
        <div> Share Recipe|<input type='checkbox' onChange={(e) => {setShareRecipe(e.target.checked); console.log(shareRecipe);}}/> <button type="submit" id="add_recipe_btn">Post Recipe</button></div> 
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <div className='close'>
+        <button onClick={() => setShowAddRecipeModal(!showAddRecipeModal)}>Close</button>
+      </div>
     </div>
   );
 };
