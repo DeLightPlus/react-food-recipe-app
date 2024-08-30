@@ -113,7 +113,7 @@ const MealItem = ({data, isFav}) =>
                     </div>  
                 )
             }
-            {console.log(showEditRecipeModal)}
+            
             {
                 showEditRecipeModal && (
                     
