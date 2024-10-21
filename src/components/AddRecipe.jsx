@@ -255,6 +255,9 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
                 </label>
                 <label>Date Updated: { dateModified }</label>
             </div>  
+            <label>Prepation Time:<input placeholder='0 Hours: 0 Mins' /> </label>
+            <label>Cooking Time<input placeholder='0 Hours: 0 Mins' /> </label>
+            
       </div>
         
        <div> Share Recipe|<input type='checkbox' onChange={(e) => {setShareRecipe(e.target.checked); console.log(shareRecipe);}}/> <button type="submit" id="add_recipe_btn">Post Recipe</button></div> 

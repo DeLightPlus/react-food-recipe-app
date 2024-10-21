@@ -62,10 +62,11 @@ const MealItem = ({data, isFav}) =>
                 ):(
                     <div className="recipe-card" >                      
 
-                        <button className="save"
+                        {/* <button className="save"
                             onClick={() => { SaveFavoredRecipe(data.idMeal)  }}>                    
-                            <div className="icn">{ isFav ?  <>🌟</> : <>⭐</>}</div> {/* 🤩 */}
-                        </button>
+                            <div className="icn">{ isFav ?  <>🌟🤩</> : <>⭐</>}</div> 
+                            
+                        </button> */}
 
                         {
                             isFav &&
@@ -77,10 +78,11 @@ const MealItem = ({data, isFav}) =>
                         
 
                         <div className ="info" >
-                            <strong>{data.strMeal} ({data.strArea} Food)</strong><br/>
-                            <img src={data.strMealThumb} alt="🍱"/>                   
+                            <strong style={{textAlign:'start', padding:'4px 8px'}}>{data.strMeal} ({data.strArea} Food)</strong>
+                            <p style={{textAlign:'start', padding:'4px 8px'}}>{data.strCategory} </p>
+                            <img src={data.strMealThumb} alt="🍱"/>               
                             
-                            <p>Category: <strong>{data.strCategory} </strong></p>
+                            
                         </div>   
                         {!showIngredients && <Link className='link-item'
                             onClick={() => { setShowIngredients(!showRecipeDetails); }}> Show Ingredients</Link>}

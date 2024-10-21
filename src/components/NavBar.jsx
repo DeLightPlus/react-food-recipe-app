@@ -103,7 +103,7 @@ function Navbar(
           />
         } 
 
-        <ul className="nav-links" style={{alignSelf:'start'}}>
+        <ul className="nav-links" style={{alignSelf:'end'}}>
         
         <li className="nav-item">
           <select onChange={(e) => { console.log('Category:', e.target.value); } } >

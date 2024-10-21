@@ -31,34 +31,43 @@ body
   place-items: center;
   min-width: 320px;
   max-height: 100vh;
-  overflow: hidden;
-  
+  overflow: hidden;  
 }
 
 header
 {
   position: fixed;
-  width: 100%;
+  width: 98%;
+  height: 200px;
   top: 1%;
   left: 1%;
+
+  background: url('assets/foodbg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
   
-  z-index: 100; 
-  
+  z-index: 100;   
 }
 
 main
 {
   position: absolute;
-  top: 10rem;
-  right: 0;
-  align-self: center;
+  top: 13rem;  
 
-  padding: 8px;
-  width: 95%;
+  padding: 16px;
+  width: 100%;
   height: 85%;
 
   display: flex;
   flex-direction: column;
+  align-items: center;
+  
+  /* justify-content: center; */
   background: url('./assets/bg-349610.jpg') cover no-repeat;  
   overflow-y: scroll;
+  scrollbar-width: none;
 }

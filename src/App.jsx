@@ -70,7 +70,7 @@ function FoodRecipeApp()
 
   const handleMyFavouredRecipes = (user_Id) =>
     {
-      console.log('app.7 id:', user_Id);
+      console.log('app.73 id:', user_Id);
       
       const url = `http://localhost:8000/favoured-recipes?user_id=${user_Id}`;
       axios.get(url)

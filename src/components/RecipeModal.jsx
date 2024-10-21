@@ -11,7 +11,10 @@ const RecipeModal = ({ data, ingredients, showRecipeDetails, setShowRecipeDetail
     }
 
   return (
-    <div className={`recipe-modal`} id={`${showRecipeDetails ? 'active' : ''}`} style={{ backgroundImage: `url(${data.strMealThumb})` }}>
+    <div className={`recipe-modal`} id={`${showRecipeDetails ? 'active' : ''}`} 
+      // style={{ backgroundImage: `url(${data.strMealThumb})` }}
+      // style={{ backgroundImage: `url(${data.strMealThumb})` }}
+      >
 
       <div className="btn-container">
         <button className="rec-close" onClick={() => setShowRecipeDetails(false)}>
