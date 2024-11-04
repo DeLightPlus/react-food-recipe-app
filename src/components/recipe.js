@@ -49,6 +49,9 @@ export const recipe = {
     strMeasure19: "",
     strMeasure20: "",
     strSource: "",
+    strPreparationTime:"",
+    strCookingTime:"",
+    servings:"",
     strImageSource: null,
     strCreativeCommonsConfirmed: null,
     dateModified: null

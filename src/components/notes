@@ -1,0 +1,90 @@
+.AddRecipe
+{
+  position: fixed;
+  top: 13%;
+  left: 1%; 
+
+  width: 99%;
+  height: 87%; 
+  
+  margin-bottom: 64px;
+  padding-top: 32px;
+  background: linear-gradient(180deg, #1b1b1b,#252525,#2a2b2b, #2a2b2b, #2a2b2b, #2a2b2bb2);
+  z-index: 150;
+  overflow-y: scroll;
+}
+
+.AddRecipe form
+{ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  gap:0;
+}
+
+.add-row
+{  
+  display: flex;
+  width: 86%;
+  justify-content: center;
+  text-align: center;
+}
+
+.add-column
+{  
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;  
+  margin: 4px;
+  text-align: center;
+  gap: 4;
+}
+
+.add-column#img-src-vid
+{
+  min-width: 286px;
+  flex: 1;
+}
+
+.add-column#ingredients, #measures
+{
+  max-width: 300px;
+}
+
+.add-column#instructions
+{
+  flex: 2;
+}
+
+#img-src-vid img
+{
+  margin-bottom: 10px;
+  width: 256px;
+  height: 256px;
+  border-radius: 8px;
+}
+
+.AddRecipe button
+{ 
+  width: 128px;
+}
+
+.AddRecipe input
+{
+  /* height: 32px; */
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.AddRecipe li
+{
+  overflow: hidden;
+  border-bottom: #eca115 solid 1px;
+}
+
+#add_recipe_btn
+{
+  width: 600px;
+}

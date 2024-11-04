@@ -94,7 +94,7 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
   };
 
   const handleAddMeasurement = (event) => 
-    {
+  {
       event.preventDefault();
       setMeasurements([...measurements, newMeasure]);
       setNewMeasure('');
@@ -147,25 +147,24 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
             </label>
         </div>
 
-        <div style={{display:'flex'}}>
+        <div>
+          <label>
+            Drink:
+            <input type="text" value={drinkAlt} placeholder='Alternative' 
+              onChange={(event) => setDrinkAlt(event.target.value)} />
+          </label> 
 
-            <label>
-                Drink:
-                <input type="text" value={drinkAlt} placeholder='Alternative' 
-                    onChange={(event) => setDrinkAlt(event.target.value)} />
-            </label> 
+          <label>
+            Area:
+            <input type="text" value={area} placeholder='eg, South African'
+              onChange={(event) => setArea(event.target.value)} />
+          </label>
 
-            <label>
-                Area:
-                <input type="text" value={area} placeholder='eg, South African'
-                    onChange={(event) => setArea(event.target.value)} />
-            </label>
-
-            <label>
-                Tags:
-                <input type="text" value={tags} placeholder='eg, StreetFood, FastFood, OnTheGo'
-                    onChange={(event) => setTags(event.target.value)} />
-            </label> 
+          <label>
+            Tags:
+            <input type="text" value={tags} placeholder='eg, StreetFood, FastFood, OnTheGo'
+              onChange={(event) => setTags(event.target.value)} />
+          </label> 
         </div>        
 
       <div className="add-row">
@@ -207,8 +206,8 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
           </div>  
       </div>
 
-      <div className="add-row">
-          <div className='add-column' id='instructions'>
+      
+      <div className='add-column' id='instructions'>
                 {
                     (instructions.length < 20) && 
                     <div>
@@ -219,33 +218,39 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
                     </div>
                 }               
                 
-                {/* <h2>Instructions:</h2>
-                <ol className='instructions'>
-                    {instructions.map((instruction, index) => (
-                    <li key={index}>{instruction}</li>
-                    ))}
-                </ol> */}
+                {
+                  /* <h2>Instructions:</h2>
+                  <ol className='instructions'>
+                      {instructions.map((instruction, index) => (
+                      <li key={index}>{instruction}</li>
+                      ))}
+                  </ol> */
+                }
 
                 <p>Instructions :</p> {/* (stringified) */}
                 <pre>{stringifyInstructions()}</pre>
                 <br />
-          </div>
+      </div>
+      
+
+      <div className='add-column'>
+        <label>Prepation Time:<input placeholder='0 Hours: 0 Mins' /> </label>
+        <label>Cooking Time<input placeholder='0 Hours: 0 Mins' /> </label>   
       </div>
 
-      <div className='add-row'>
-            <div className='add-column' id='img-src-vid'>
+      <div className='add-column' id='img-src-vid'>
+        <label>
+          Image:
+          <input type="file" onChange={handleImageChange} />
+        </label>
+        
+        {
+          imageUrl && 
+          (
+            <img src={imageUrl} alt="Uploaded Image" width="200" height="200" />
+          )
+        }
                 <label>
-                    Image:
-                    <input type="file" onChange={handleImageChange} />
-                </label>
-                <br />
-                {
-                    imageUrl && 
-                    (
-                        <img src={imageUrl} alt="Uploaded Image" width="200" height="200" />
-                    )
-                }
-                <label style={{alignSelf:'start'}}>
                     Source: <input value={source} placeholder='source link/url'
                                 onChange={(e) => setSource(e.target.value)} />
                 </label>
@@ -254,11 +259,7 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
                                 onChange={(e) => setVid_Url(e.target.value)}/>
                 </label>
                 <label>Date Updated: { dateModified }</label>
-            </div>  
-            <label>Prepation Time:<input placeholder='0 Hours: 0 Mins' /> </label>
-            <label>Cooking Time<input placeholder='0 Hours: 0 Mins' /> </label>
-            
-      </div>
+            </div> 
         
        <div> Share Recipe|<input type='checkbox' onChange={(e) => {setShareRecipe(e.target.checked); console.log(shareRecipe);}}/> <button type="submit" id="add_recipe_btn">Post Recipe</button></div> 
       </form>

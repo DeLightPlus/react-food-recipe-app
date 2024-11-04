@@ -6,6 +6,7 @@ import { BrowserRouter, Link, Route, useNavigate } from 'react-router-dom';
 
 function Navbar(
   {
+    navState, setNavState,
     showLoginModal, setShowLoginModal,
     isLoginModal, setModal, 
     loggedInUser, setLoggedInUser,
@@ -85,8 +86,8 @@ function Navbar(
               </>            
               
             ) : (
-                  <li className="nav-item">
-                    <Link to="/login" className="nav-link" id="login-link"
+                  <li className="nav-item" id="login-link">
+                    <Link to="/login" className="nav-link" 
                       onClick={(e) => { handleModal(e) }}>  
                       { showLoginModal && isLoginModal ? 'Register' : 'Login' } </Link>            
                   </li>
@@ -107,7 +108,7 @@ function Navbar(
         
         <li className="nav-item">
           <select onChange={(e) => { console.log('Category:', e.target.value); } } >
-                    {/* <input placeholder='Category'/> */}
+              {/* <input placeholder='Category'/> */}
               <option value=""> Category </option>
               <option value="Miscellaneous">Miscellaneous</option>
               <option value="Seafood">Seafood</option>
@@ -118,10 +119,13 @@ function Navbar(
         </li>
 
         { 
-          loggedInUser &&
+          loggedInUser && 
           <li className="nav-item">
             <Link to="/myRecipes" className="nav-link" 
-                onClick={() => setShowMyRecipeList(true)}>
+                onClick={() => {
+                  setNavState("myRecipe")
+                  setShowMyRecipeList(true)}
+                }>
               MyRecipies 
               {/* <small className="icn">&#127857;</small> */}
             </Link>

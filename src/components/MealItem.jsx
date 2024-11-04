@@ -60,22 +60,14 @@ const MealItem = ({data, isFav}) =>
                         setShowRecipeDetails={setShowRecipeDetails}
                     />
                 ):(
-                    <div className="recipe-card" >                      
-
-                        {/* <button className="save"
-                            onClick={() => { SaveFavoredRecipe(data.idMeal)  }}>                    
-                            <div className="icn">{ isFav ?  <>🌟🤩</> : <>⭐</>}</div> 
-                            
-                        </button> */}
-
+                    <div className="recipe-card" > 
                         {
                             isFav &&
                             <button className="edit"
                                 onClick={() => { setShowEditRecipeModal(true)  }}>                    
                                 <div className="icn">📝</div>{/* &#128221; ✏️ */}
                             </button> 
-                        }
-                        
+                        }                       
 
                         <div className ="info" >
                             <strong style={{textAlign:'start', padding:'4px 8px'}}>{data.strMeal} ({data.strArea} Food)</strong>
@@ -83,15 +75,29 @@ const MealItem = ({data, isFav}) =>
                             <img src={data.strMealThumb} alt="🍱"/>               
                             
                             
-                        </div>   
-                        {!showIngredients && <Link className='link-item'
-                            onClick={() => { setShowIngredients(!showRecipeDetails); }}> Show Ingredients</Link>}
-                        <Link className='link-item'
-                            onClick={() => { setShowRecipeDetails(!showIngredients); }}> Show More</Link>
+                        </div>  
+
+                        <div className="h-group">
+                            {
+                                !showIngredients && 
+                                <button className='link-item'
+                                    onClick={() => { setShowIngredients(!showRecipeDetails); }}>
+                                        Ingredients
+                                </button>
+                            }
+                            <button className='link-item'
+                                onClick={() => { 
+                                    setShowIngredients(false);
+                                    setShowRecipeDetails(true); 
+                                    }}>
+                                        Show More
+                            </button>
+                        </div> 
+                        
                         {
                             showIngredients && (
                             <div className="ingredients">
-                                <h4>Ingredients</h4>
+                                <button onClick={() => setShowIngredients(!showIngredients) }> {`< Ingredients`}</button>
                                 <div className="ingred-info">  
                                     <>
                                         {
@@ -108,10 +114,11 @@ const MealItem = ({data, isFav}) =>
                         {
                             !isFav &&
                             <button className="like"
-                            onClick={() => { SaveRecipe(data.idMeal) }}>                    
-                            <div className="icn">{ <>❤️</>}</div> 
-                            {/*💕👌👍✨♥️*/}
-                        </button>}
+                                onClick={() => { SaveRecipe(data.idMeal) }}>                    
+                                <div className="icn">{ <>❤️</>}</div> 
+                                {/*💕👌👍✨♥️*/}
+                            </button>
+                        }
                     </div>  
                 )
             }

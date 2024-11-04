@@ -16,6 +16,8 @@ function FoodRecipeApp()
 {  
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem('user')) || null);
 
+  const [navState, setNavState] = useState("")
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoginModal, setModal] = useState(true);  
 
@@ -108,6 +110,9 @@ function FoodRecipeApp()
       <div className="RecipeApp">
         <header>
           <Navbar
+            navState={navState}
+            setNavState={setNavState}
+
             showLoginModal={showLoginModal}
             setShowLoginModal={setShowLoginModal}
             isLoginModal={isLoginModal}
@@ -154,8 +159,6 @@ function FoodRecipeApp()
                   />} 
                 />
               )
-
-
             ):( <>           
                   {
                     // !showMyRecipeList &&

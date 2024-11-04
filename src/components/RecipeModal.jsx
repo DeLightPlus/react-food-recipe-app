@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SaveFavoredRecipe from './SaveFavoured.js';
+import axios from 'axios';
 
 const RecipeModal = ({ data, ingredients, showRecipeDetails, setShowRecipeDetails }) => 
 {
@@ -10,11 +11,28 @@ const RecipeModal = ({ data, ingredients, showRecipeDetails, setShowRecipeDetail
       setIsFavoured(isNowFav);
     }
 
+    const handleDeleteRecipe = async () => 
+    {
+      // console.log(data.id)
+      try 
+      {
+        await axios.delete(`http://localhost:8000/recipes/${data.id}`);
+        alert('Recipe deleted successfully');
+        setShowRecipeDetails(false); // Close the modal after deletion
+      } 
+      catch (error) 
+      {
+        console.error('Error deleting recipe:', error);
+        alert('Failed to delete the recipe. Please try again.');
+      }
+    };
+
   return (
     <div className={`recipe-modal`} id={`${showRecipeDetails ? 'active' : ''}`} 
       // style={{ backgroundImage: `url(${data.strMealThumb})` }}
       // style={{ backgroundImage: `url(${data.strMealThumb})` }}
       >
+        { console.log(data) }
 
       <div className="btn-container">
         <button className="rec-close" onClick={() => setShowRecipeDetails(false)}>
@@ -26,11 +44,14 @@ const RecipeModal = ({ data, ingredients, showRecipeDetails, setShowRecipeDetail
           <button className="rec-edit" onClick={handleToggleFav}>
             <div className="icn">&#128221;</div>
           </button>
-        }
-        
+        }        
 
         <button className="rec-save" onClick={handleToggleFav}>
           <div className="icn">&#11088;</div>
+        </button>
+
+        <button className="rec-save" onClick={handleDeleteRecipe}>
+          <div className="icn">&#128465;</div>
         </button>
       </div>
 

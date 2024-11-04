@@ -44,7 +44,7 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
       </button>
 
       <div className="info">
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex', justifyContent:"center"}}>
           <div>
             <label>Recipe Name:</label>
             <input
@@ -71,8 +71,18 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
               onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, strArea: e.target.value })}
             />
           </div>
-        </div>
-        
+        </div>  
+        <div style={{display:'flex', justifyContent:"center"}}>
+          <div>
+            <label htmlFor="">Tags</label>
+            <input/>
+          </div>
+
+          <div>
+            <label htmlFor="">Drink Alternative</label>
+            <input/>
+          </div>
+        </div>      
 
         <div className="ingredients">
           <h4>Ingredients</h4>
@@ -100,7 +110,10 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
             onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, strInstructions: e.target.value })}
           />
         </div>
-        
+
+        <div>
+          <label></label>
+        </div>        
       </div>
 
       <button className="update" onClick={handleUpdateRecipe}>
