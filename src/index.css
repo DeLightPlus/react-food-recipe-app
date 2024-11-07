@@ -38,28 +38,48 @@ header
 {
   position: fixed;
   width: 98%;
-  height: 200px;
+  /* height: 200px; */
   top: 1%;
   left: 1%;
 
-  background: url('assets/foodbg.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  border-top-left-radius: 32px;
-  border-top-right-radius: 32px;
+  background: rgb(184, 184, 184);
+  color: #242424;
+  padding: 1px 2px;
+  border-radius: 32px; 
   
   z-index: 100;   
+}
+header .logo
+{
+  width: 128px;
+}
+header .logo a
+{
+  color: #242424;
+  font-size: medium;
+}
+
+header .navbar 
+{
+  padding: 0.21rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 main
 {
   position: absolute;
-  top: 13rem;  
+  top: 16%;  
 
   padding: 16px;
-  width: 100%;
+  width: 83%;
   height: 85%;
 
   display: flex;

@@ -8,18 +8,17 @@
   background: antiquewhite;
 }
 
-.navbar 
+.searchNfilter
 {
-  background-color: #ffffff1e;
+  position: fixed;
+  top:9%;
+  left:0;
   width: 100%;
-  height: 100%;
-  padding: 0.21rem;
-
+  padding: 8px 16px;
+  
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  
 }
 
 .container

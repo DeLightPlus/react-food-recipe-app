@@ -1,6 +1,6 @@
 import './App.css';
 
-import Navbar from './components/NavBar.jsx';
+import Navbar from './components/Header.jsx';
 import LoginModal from './components/LoginModal.jsx';
 import RegisterModal from './components/RegisterModal.jsx';
 import Meal from './components/Meal.jsx';
@@ -10,6 +10,7 @@ import addRecipe from './components/AddRecipe.jsx';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import Header from './components/Header.jsx';
 
 
 function FoodRecipeApp() 
@@ -107,9 +108,8 @@ function FoodRecipeApp()
 
   return (
     <><BrowserRouter>
-      <div className="RecipeApp">
-        <header>
-          <Navbar
+      <div className="RecipeApp">        
+          <Header
             navState={navState}
             setNavState={setNavState}
 
@@ -134,9 +134,9 @@ function FoodRecipeApp()
             showAddRecipeModal={showAddRecipeModal}
             setShowAddRecipeModal={setShowAddRecipeModal}
           />
-        </header> 
+        
 
-        <main>         
+        <main>        
 
           <Routes>
           { showLoginModal ? //checkLoggedIn
