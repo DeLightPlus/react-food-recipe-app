@@ -134,7 +134,10 @@ function FoodRecipeApp()
             showAddRecipeModal={showAddRecipeModal}
             setShowAddRecipeModal={setShowAddRecipeModal}
           />
-        
+
+        <div className="showcase">
+          <p>...</p>
+        </div>
 
         <main>        
 

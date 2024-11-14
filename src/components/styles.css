@@ -173,14 +173,15 @@
 
 ul.main
 {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(256px, 1fr));
   /* grid-auto-rows: 1fr; */
   /* grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr); */
   gap: 16px;
   
-  width: 100%;
+  /* width: 100%; */
   background: #cccccc00; 
   justify-content: space-between;
 }
@@ -192,7 +193,7 @@ ul.main
   border: 1px solid black;
   border-radius: 8px;
   overflow: hidden;
-  height: 345px;
+  height: 256px;
 }
 
 .recipe-card
@@ -218,7 +219,7 @@ ul.main
 .recipe-card img
 {
   width: 100%;
-  height: 200px;
+  height: 128px;
   /* border-radius: 4%; */
   background-size: cover;
 }
@@ -298,8 +299,8 @@ ul.main
   padding: 2px;
   margin: 0px 10px 0px 10px;
   background: #58585850;
-  height: 226px;
-  width: 300px;
+  height: 128px;
+  width: 256px;
   /* border-bottom: 1px solid gray; */
   overflow-y: scroll;
   scrollbar-width: none;

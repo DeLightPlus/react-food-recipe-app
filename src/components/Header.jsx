@@ -63,18 +63,18 @@ const Header = (
       <nav className="navbar"> 
           <ul className="nav-links">
             <li className="nav-item">
-              <a href="/" className="nav-link">
-                Home
+              <a href="/Recipes" className="nav-link">
+                RECIPES
               </a>
             </li>
             <li className="nav-item">
               <a href="#" className="nav-link">
-                About
+                ABOUT
               </a>
             </li>
             <li className="nav-item">
               <a href="#" className="nav-link">
-                Contact
+                CONTACT US
               </a>
             </li>
           </ul>

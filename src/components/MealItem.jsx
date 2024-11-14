@@ -45,7 +45,6 @@ const MealItem = ({data, isFav}) =>
             const ingredientsArray = Array.from(ingredientsSet);
             setIngredients(ingredientsArray);
         }, [data.idMeal, userId]);
-
         
 
     return(

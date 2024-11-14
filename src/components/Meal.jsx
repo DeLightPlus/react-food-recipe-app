@@ -40,6 +40,10 @@ const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecip
                                
         }        
       </ul>
+
+      <aside>
+        <button onClick={() => setMyRecipeList([...myRecipeList, recipeList[0]])}>Navbar</button>
+      </aside>
     </>
   );
 };
