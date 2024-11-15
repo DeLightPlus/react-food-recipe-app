@@ -76,7 +76,7 @@ header .navbar
 main
 {
   position: absolute;
-  top: 16%;  
+  top: 11%;  
 
   padding: 16px;
   width: 100%;
@@ -94,7 +94,10 @@ main
 
 aside
 {
-  width: 20%;
-  background: whitesmoke;
+  padding: 8px;
+  width: 256px;
+  background: rgb(206, 206, 206);
   margin-left: 16px;
+  display: flex;
+  flex-direction: column;
 }

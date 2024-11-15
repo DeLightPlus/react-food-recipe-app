@@ -1,16 +1,17 @@
 import './App.css';
 
 import Navbar from './components/Header.jsx';
-import LoginModal from './components/LoginModal.jsx';
-import RegisterModal from './components/RegisterModal.jsx';
-import Meal from './components/Meal.jsx';
-import MyRecipe from './components/MyRecipe.jsx';
-import addRecipe from './components/AddRecipe.jsx';
+import LoginModal from './components/auth/LoginModal.jsx';
+import RegisterModal from './components/auth/RegisterModal.jsx';
+import Meal from './components/recipes/Meal.jsx';
+import MyRecipe from './components/recipes/MyRecipe.jsx';
+import addRecipe from './components/recipes/AddRecipe.jsx';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './components/Header.jsx';
+import HomePage from './components/Home.jsx';
 
 
 function FoodRecipeApp() 
@@ -133,16 +134,12 @@ function FoodRecipeApp()
 
             showAddRecipeModal={showAddRecipeModal}
             setShowAddRecipeModal={setShowAddRecipeModal}
-          />
-
-        <div className="showcase">
-          <p>...</p>
-        </div>
+          />       
 
         <main>        
 
           <Routes>
-          { showLoginModal ? //checkLoggedIn
+          { showLoginModal &&
             (
               isLoginModal ?    
               (
@@ -162,37 +159,34 @@ function FoodRecipeApp()
                   />} 
                 />
               )
-            ):( <>           
-                  {
-                    // !showMyRecipeList &&
-                    <Route path='/' element={
-                      <Meal 
-                        showMyRecipeList={showMyRecipeList}
-                        recipeList={recipeList}                             
-                        myRecipeList={myRecipeList} 
-                        setMyRecipeList={setMyRecipeList} 
-                        myFavouredRecipes = {myFavouredRecipes}
-                      />}
-                    />
-                  }                  
-
-                  <Route path="/myRecipes" element={
-                    <MyRecipe
-                      showMyRecipeList={showMyRecipeList}
-                      showMyFavoured={showMyFavoured}
-                      recipeList={recipeList}                      
-                      myRecipeList={myRecipeList} 
-                      setMyRecipeList={setMyRecipeList}
-                      myFavouredRecipes = {myFavouredRecipes}
-                      setMyFavouredRecipes={setMyFavouredRecipes}
-                      showAddRecipeModal={showAddRecipeModal}
-                      setShowAddRecipeModal={setShowAddRecipeModal}  
-                    />}
-                  />                  
-                  
-                </>
             )
-          }            
+          }
+
+            <Route path='/' element={<HomePage />} />             
+            <Route path='/Recipes' element={
+              <Meal 
+                showMyRecipeList={showMyRecipeList}
+                recipeList={recipeList}                             
+                myRecipeList={myRecipeList} 
+                setMyRecipeList={setMyRecipeList} 
+                myFavouredRecipes = {myFavouredRecipes}
+              />}
+            />           
+                                   
+                                   {console.log(myFavouredRecipes)}
+            <Route path="/myRecipes" element={
+              
+              <MyRecipe
+                showMyRecipeList={showMyRecipeList}
+                showMyFavoured={showMyFavoured}
+                recipeList={recipeList}                      
+                myRecipeList={myRecipeList}               
+                myFavouredRecipes = { myFavouredRecipes }                
+                showAddRecipeModal={showAddRecipeModal}
+                setShowAddRecipeModal={setShowAddRecipeModal}  
+              />}
+            />  
+                       
           </Routes>        
           
         </main> 
