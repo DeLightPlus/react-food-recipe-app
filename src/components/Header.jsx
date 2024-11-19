@@ -120,19 +120,19 @@ const Header = (
       { 
         loggedInUser && 
         <li className="nav-item">
-          <Link to="/myRecipes" className={`nav-link ${showMyRecipeList ? "active":""}`}
+          <Link to="/Recipes" className={`nav-link ${showMyRecipeList ? "active":""}`}
               onClick={() => {
-                setNavState("myRecipe")
+                
                 setShowMyRecipeList(true)}
               }>
-            MyRecipies {">"}
+            My Recipe Book {">"}
             {/* <small className="icn">&#127857;</small> */}
           </Link>
         </li>          
       }
 
       {
-          showMyRecipeList &&       
+                
           <>
             <li className="nav-item">
               <Link className="nav-link" 

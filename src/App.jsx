@@ -23,7 +23,6 @@ function FoodRecipeApp()
   const [isLoginModal, setModal] = useState(true);  
 
   const[searchInput,setSearchInput]=useState("");
-  const[recipeList, setRecipeList]=useState();
 
   const [showMyRecipeList, setShowMyRecipeList] = useState(false);
   const[myRecipeList, setMyRecipeList]=useState([]); 
@@ -34,10 +33,7 @@ function FoodRecipeApp()
   const[myFavouredRecipes, setMyFavouredRecipes]=useState([]);
 
   useEffect(() => 
-    {
-      if(searchInput === '')
-        searchRecipe(); 
-
+    {  
         let user = sessionStorage.getItem('user')
         console.log(user);
         
@@ -48,25 +44,21 @@ function FoodRecipeApp()
           
           if(loggedInUser !== null)
           {
-            console.log('logged in: ', loggedInUser.isLoggedIn);
-            // setShowLoginModal(false);  
+            console.log('logged in: ', loggedInUser.isLoggedIn);  
             handleMyRecipeList(); 
             handleMyFavouredRecipes(loggedInUser.user_id);      
           }            
-          else console.log('no user loggedIn');
-               
+          else console.log('no user loggedIn');               
         }
-
-        console.log(myFavouredRecipes);
-        
-
      }, []);
 
   const handleMyRecipeList = () =>
   {
     const url = `http://localhost:8000/recipes`;
     axios.get(url)
-    .then(response => { setMyRecipeList(response.data); console.log('myList',response.data) })
+    .then(response => {
+       setMyRecipeList(response.data); 
+       console.log('myList', response.data) })
     .catch(error => { console.error(error);  });    
 
   }
@@ -77,24 +69,18 @@ function FoodRecipeApp()
       
       const url = `http://localhost:8000/favoured-recipes?user_id=${user_Id}`;
       axios.get(url)
-      .then(response => { setMyFavouredRecipes(response.data); console.log('myFavList.response',response.data) })
+      .then(response =>
+        { 
+          setMyFavouredRecipes(response.data); 
+          console.log('myFavList.response',response.data) 
+        })
       .catch(error => { console.error(error);  });    
   
     }
 
   const searchRecipe = () => 
   {
-    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-    axios.get(url)
-      .then(response => 
-      {
-        setRecipeList(response.data.meals);
-        // console.log(response.data.meals);
-        setSearchInput("");
-        setShowMyRecipeList(false);
-        setShowMyFavouredRecipes(false);
-      })
-      .catch(error => { console.error(error); });
+    const url = `${searchInput}`;   
   }
     
   const handleSearch = (e) =>
@@ -162,25 +148,10 @@ function FoodRecipeApp()
                   />} 
                 />
               )
-            ):( <>           
-                  {
-                    // !showMyRecipeList &&
-                    <Route path='/' element={
-                      <Meal 
-                        showMyRecipeList={showMyRecipeList}
-                        recipeList={recipeList}                             
-                        myRecipeList={myRecipeList} 
-                        setMyRecipeList={setMyRecipeList} 
-                        myFavouredRecipes = {myFavouredRecipes}
-                      />}
-                    />
-                  }                  
-
-                  <Route path="/myRecipes" element={
-                    <MyRecipe
-                      showMyRecipeList={showMyRecipeList}
-                      showMyFavoured={showMyFavoured}
-                      recipeList={recipeList}                      
+            ):( <> 
+                  <Route path="/Recipes" element={
+                    <MyRecipe                      
+                      showMyFavoured={showMyFavoured}                    
                       myRecipeList={myRecipeList} 
                       setMyRecipeList={setMyRecipeList}
                       myFavouredRecipes = {myFavouredRecipes}

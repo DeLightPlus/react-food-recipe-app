@@ -54,5 +54,6 @@ export const recipe = {
     servings:"",
     strImageSource: null,
     strCreativeCommonsConfirmed: null,
-    dateModified: null
+    dateModified: null,
+    addedBy: null
   };

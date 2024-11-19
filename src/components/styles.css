@@ -181,7 +181,7 @@ ul.main
   grid-template-columns: repeat(3, 1fr); */
   gap: 16px;
   
-  /* width: 100%; */
+  width: 100%;
   background: #cccccc00; 
   justify-content: space-between;
 }
@@ -563,14 +563,14 @@ ul.main
   width: 32px
 }
 
-.AddRecipe
+.AddRecipe, .Edit-Recipe-Modal
 {
   position: fixed;
   top: 10%;
   left: 1%; 
 
   width: 99%;
-  height: 87%; 
+  height: 90%; 
   
   margin-bottom: 64px;
   padding: 32px;
@@ -579,54 +579,43 @@ ul.main
   overflow-y: scroll;
 }
 
-.AddRecipe form
+.AddRecipe form, .Edit-Recipe-Modal form
 { 
   display: flex;
   flex-direction: column;
   align-items: center;
   height: auto;
-  width: fit-content;
+  max-width: 600px;
   background: #2a2b2b75;
   gap:0;
 }
 
 
-.add-row
-{  
-  display: flex;
-  width: 86%;
-  justify-content: center;
-  text-align: center;
-}
-
-.add-column
-{  
-  display: flex;
-  flex-direction: column;
-  min-width: 200px;  
-  margin: 4px;
-  text-align: center;
-  gap: 4;
-}
-.add-column label
+.recipe-details
 {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: rgba(46, 46, 46, 0.562);
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
-.add-column#img-src-vid
+.recipe-details .input-box
 {
-  min-width: 286px;
-  flex: 1;
+  width: calc(100% / 2 - 20px);
+  text-align: start;
+  margin: 8px;
 }
 
-.add-column#ingredients, #measures
-{
-  max-width: 300px;
-}
 
-.add-column#instructions
+.recipe-details .input-box input
 {
-  flex: 2;
+  height: 45px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
 }
 
 #img-src-vid img
@@ -639,8 +628,21 @@ ul.main
 
 .AddRecipe button
 { 
-  width: 128px;
+  height: 45px;
+  width: 92%;
+  outline: none;
+  border-radius: 5px;
+  background: rgb(255, 230, 184);
+  color: #0f0f0f;
+  font-weight: 600;
 }
+
+.AddRecipe button:hover
+{
+  background: rgb(255, 215, 135);
+}
+
+
 
 .AddRecipe input
 {
@@ -650,16 +652,7 @@ ul.main
   border: none;
 }
 
-.AddRecipe li
-{
-  overflow: hidden;
-  border-bottom: #eca115 solid 1px;
-}
 
-#add_recipe_btn
-{
-  width: 600px;
-}
 
 .Edit-Recipe-Modal
 {
@@ -668,34 +661,27 @@ ul.main
   right: 0;
   background: #252525;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  width: 100%;
-  z-index: 200;
+ 
 }
 
-
-.Edit-Recipe-Modal#active
+/* .Edit-Recipe-Modal#active
 {
   opacity: 1;
   height: auto;
   transform: scale(1);
   transition: opacity 0.3s, height 0.3s, transform 0.3s;
+} */
 
-  
-}
 
-.Edit-Recipe-Modal .info
+.Edit-Recipe-Modal form
 {
-  /* display: flex;
-  flex-direction: column;
-justify-content: center; */
-  height: 700px;
-  width:86%;
-  overflow-y: scroll;
-  line-height: 30px;
+  display: flex;
+  /* flex-direction: column; */
+/* justify-content: center; */
+  /* height: 100%; */
+  width:600px;
+  /* overflow-y: scroll; */
+  /* line-height: 30px; */
 }
 
 .info .instructions

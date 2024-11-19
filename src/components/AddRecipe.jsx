@@ -2,114 +2,97 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { recipe } from './recipe';
 
-const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) => 
-{
+const AddRecipe = ({ showAddRecipeModal, setShowAddRecipeModal }) => {
   const [recipeName, setRecipeName] = useState('');
-  const [drinkAlt, setDrinkAlt] = useState(null);
+  const [drinkAlt, setDrinkAlt] = useState('');
   const [category, setCategory] = useState('');
   const [tags, setTags] = useState('');
   const [area, setArea] = useState('');
-
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
-
-//   const [image, setImage] = useState(null);
   const [vid_Url, setVid_Url] = useState('');
-  
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState('');
-
   const [measurements, setMeasurements] = useState([]);
   const [newMeasure, setNewMeasure] = useState('');
-
   const [instructions, setInstructions] = useState([]);
   const [newInstruction, setNewInstruction] = useState('');
+  const [source, setSource] = useState('');
+  const [prepTime, setPrepTime] = useState('');
+  const [cookTime, setCookTime] = useState('');
+  const [servings, setServings] = useState('');
+  const [dateModified] = useState(new Date().toLocaleString().slice(0, 10));
+  const [shareRecipe, setShareRecipe] = useState(false);
 
-  const [source, setSource] = useState("");  
-  const [dateModified, setDateModified] = useState( new Date().toLocaleString().slice(0, 9) );
-
-  const [shareRecipe, setShareRecipe] = useState(false)
   const [error, setError] = useState(null);
+  const [useUrl, setUseUrl] = useState(false); 
 
-  const handleAddRecipe = async (event) => 
-  {
+  const handleAddRecipe = async (event) => {
     event.preventDefault();
-    try 
-    {
+    try {
+      if (!recipeName || !category || !ingredients.length || !measurements.length || !instructions.length) {
+        setError('Please fill in all required fields.');
+        return;
+      }
+
       const timestamp = new Date().getTime();
-       
-      recipe.idMeal= String(timestamp).slice(-6);
+      recipe.idMeal = String(timestamp).slice(-6);
       recipe.strMeal = recipeName;
-      recipe.strDrinkAlternate = drinkAlt;
+      recipe.strDrinkAlternate = drinkAlt || null;
       recipe.strCategory = category;
       recipe.strArea = area;
-
       recipe.strInstructions = stringifyInstructions();
       recipe.strMealThumb = imageUrl;
       recipe.strTags = tags;
-      recipe.strYoutube = vid_Url;        
-    
-      for (let i = 0; i < ingredients.length; i++) 
-      {
-        recipe[`strIngredient${i+1}`] = ingredients[i];
-        recipe[`strMeasure${i+1}`] = measurements[i];
-      }  
-      
+      recipe.strYoutube = vid_Url || '';
       recipe.strSource = source;
-      recipe.strImageSource = imageUrl;  
-      recipe.strCreativeCommonsConfirmed = null;
+      recipe.strImageSource = imageUrl;
       recipe.dateModified = dateModified;
-      console.log(recipe);      
-      
-      if(shareRecipe)
-      {
-        alert('Notice that you wont be able to edit or update the recipe')
-        const response = await axios.post('http://localhost:8000/recipes', recipe);
-        console.log(response.data);
-        alert('Recipe added successfully!');
-      }
-      else
-      {
-        const response = await axios.post('http://localhost:8000/favoured-recipes', recipe);
+      recipe.strPreparationTime = prepTime;
+      recipe.strCookingTime = cookTime;
+      recipe.servings = servings;
+
+      for (let i = 0; i < ingredients.length; i++) {
+        recipe[`strIngredient${i + 1}`] = ingredients[i];
+        recipe[`strMeasure${i + 1}`] = measurements[i];
       }
 
-      
+      recipe.addedBy = JSON.parse(sessionStorage.getItem('user')).user_id;
+      recipe.strCreativeCommonsConfirmed = shareRecipe ? 'public' : 'private';
+
+      const endpoint = shareRecipe ? 'http://localhost:8000/recipes' : 'http://localhost:8000/favoured-recipes';
+      const response = await axios.post(endpoint, recipe);
+
+      alert('Recipe added successfully!');
+      console.log(response.data);
     } catch (error) {
       setError(error.message);
     }
   };
 
-  const handleAddIngredient = (event) => 
-  {
+  const handleAddIngredient = (event) => {
     event.preventDefault();
-    setIngredients([...ingredients, newIngredient]);
-    setNewIngredient('');
-
-    if (ingredients.length < 20) 
-    {
-        setIngredients([...ingredients, newIngredient]);
-        setNewIngredient('');
-    } else {   alert('You have reached the maximum number of ingredients (20)');    }    
-    
+    if (ingredients.length < 20 && newIngredient) {
+      setIngredients([...ingredients, newIngredient]);
+      setNewIngredient('');
+    } else {
+      alert('You have reached the maximum number of ingredients (20)');
+    }
   };
 
-  const handleAddMeasurement = (event) => 
-  {
-      event.preventDefault();
+  const handleAddMeasurement = (event) => {
+    event.preventDefault();
+    if (measurements.length < 20 && newMeasure) {
       setMeasurements([...measurements, newMeasure]);
       setNewMeasure('');
-  
-      if (measurements.length < 20) 
-      {
-        setMeasurements([...measurements, newMeasure]);
-        setNewMeasure('');
-      } else {   alert('You have reached the maximum number of ingredients measurements (20)');    }    
-      
-    };
+    } else {
+      alert('You have reached the maximum number of measurements (20)');
+    }
+  };
 
   const handleAddInstruction = (event) => {
     event.preventDefault();
-    if (instructions.length < 20) {
+    if (instructions.length < 20 && newInstruction) {
       setInstructions([...instructions, newInstruction]);
       setNewInstruction('');
     } else {
@@ -121,154 +104,210 @@ const AddRecipe = ({showAddRecipeModal, setShowAddRecipeModal}) =>
     return instructions.map((instruction, index) => `Step ${index + 1}: ${instruction}`).join('\n');
   };
 
-  const handleImageChange = (event) => 
-  {
-    setImage(event.target.files[0]);
-    setImageUrl(URL.createObjectURL(event.target.files[0]));
+  const handleImageChange = (event) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        setImageUrl(url); // Use the object URL to display the image
+        setImage(file);
+      }
+    }
   };
 
-  console.log(shareRecipe);
-  
+  const handleUrlChange = (event) => {
+    setImageUrl(event.target.value);
+    setImage(null); // Clear the file state if a URL is entered
+  };
+
+  const toggleUseUrl = () => {
+    setUseUrl(!useUrl); // Toggle between file upload and URL input
+    setImageUrl(''); // Reset the image URL when switching modes
+    setImage(null); // Clear the file state when switching modes
+  };
+
   return (
-    <div className='AddRecipe'>
-      <h2>Add Recipe</h2>
-      <form onSubmit={handleAddRecipe}>
-        <div style={{display:'flex'}}> 
-            <label>
-                Recipe Name:
-                <input type="text" value={recipeName} placeholder='Name of your recipe' 
-                    onChange={(event) => setRecipeName(event.target.value)} />
-            </label>  
+    <div className="AddRecipe">
+  <h2>Add Recipe</h2>
+  <form onSubmit={handleAddRecipe}>
+    <div className='recipe-details'>
+      <label className='input-box'>
+        <span>Recipe Name:</span>
+        <input
+          type="text"
+          value={recipeName}
+          placeholder="Name of your recipe"
+          onChange={(event) => setRecipeName(event.target.value)}
+        />
+      </label>
 
-            <label>
-                Category:
-                <input type="text" value={category} placeholder='eg. Side, Veg, Dessert, ...'
-                    onChange={(event) => setCategory(event.target.value)} />
-            </label>
-        </div>
+      <label className='input-box'>
+        <span>Category:</span>
+        <input
+          type="text"
+          value={category}
+          placeholder="e.g. Side, Veg, Dessert"
+          onChange={(event) => setCategory(event.target.value)}
+        />
+      </label>    
 
-        <div>
-          <label>
-            Drink:
-            <input type="text" value={drinkAlt} placeholder='Alternative' 
-              onChange={(event) => setDrinkAlt(event.target.value)} />
-          </label> 
+      <label className='input-box'>
+        <span>Area (Optional):</span>
+        <input
+          type="text"
+          value={area}
+          placeholder="e.g., South African"
+          onChange={(event) => setArea(event.target.value)}
+        />
+      </label>
 
-          <label>
-            Area:
-            <input type="text" value={area} placeholder='eg, South African'
-              onChange={(event) => setArea(event.target.value)} />
-          </label>
-
-          <label>
-            Tags:
-            <input type="text" value={tags} placeholder='eg, StreetFood, FastFood, OnTheGo'
-              onChange={(event) => setTags(event.target.value)} />
-          </label> 
-        </div>        
-
-      <div className="add-row">
-          <div className='add-column' id='ingredients'>
-                {
-                    (ingredients.length < 20) && 
-                    <>
-                        <label>Ingredient: </label>
-                        <input value={newIngredient} placeholder={`Ingredient ${ingredients.length+1}:`}
-                            onChange={(event) => setNewIngredient(event.target.value)} />
-                        <button onClick={handleAddIngredient}>Add {(ingredients.length < 20) && 20 - ingredients.length}</button>
-                    </>
-                }                    
-
-                <ul className='add-ingredients'><p>Ingredients:</p>
-                    {/* {console.log(ingredients)} */}
-                    {   
-                        ingredients.map((ingredient, index) => ( <li key={index}>{index+1}. {ingredient}</li> ))
-                    }
-                </ul>
-          </div>
-
-          <div className='add-column' id='measures'>
-                {
-                    (measurements.length < 20) && 
-                    <>
-                        <label>Measure</label>
-                        <input value={newMeasure} placeholder={`Measure For Ingredient ${measurements.length+1}`}
-                            onChange={(event) => setNewMeasure(event.target.value)} />
-                        <button onClick={handleAddMeasurement}>Add {(measurements.length < 20) && 20 - measurements.length}</button>
-                    </>
-                }   
-                <ul className='add-ingredients'><p>Measures</p>
-                    {/* {console.log(ingredients)} */}
-                    {   
-                        measurements.map((measure, index) => ( <li key={index}>measure{index+1}: {measure}</li> ))
-                    }
-                </ul>
-          </div>  
-      </div>
-
-      
-      <div className='add-column' id='instructions'>
-                {
-                    (instructions.length < 20) && 
-                    <div>
-                        <label> Add Instruction: </label>
-                        <input value={newInstruction} placeholder={`instruction, Step ${instructions.length+1}`}
-                            onChange={(event) => setNewInstruction(event.target.value)} />
-                        <button onClick={handleAddInstruction}>Add (Step {instructions.length+1})</button>
-                    </div>
-                }               
-                
-                {
-                  /* <h2>Instructions:</h2>
-                  <ol className='instructions'>
-                      {instructions.map((instruction, index) => (
-                      <li key={index}>{instruction}</li>
-                      ))}
-                  </ol> */
-                }
-
-                <p>Instructions :</p> {/* (stringified) */}
-                <pre>{stringifyInstructions()}</pre>
-                <br />
-      </div>
-      
-
-      <div className='add-column'>
-        <label>Prepation Time:<input placeholder='0 Hours: 0 Mins' /> </label>
-        <label>Cooking Time<input placeholder='0 Hours: 0 Mins' /> </label>   
-      </div>
-
-      <div className='add-column' id='img-src-vid'>
-        <label>
-          Image:
-          <input type="file" onChange={handleImageChange} />
-        </label>
-        
-        {
-          imageUrl && 
-          (
-            <img src={imageUrl} alt="Uploaded Image" width="200" height="200" />
-          )
-        }
-                <label>
-                    Source: <input value={source} placeholder='source link/url'
-                                onChange={(e) => setSource(e.target.value)} />
-                </label>
-                <label >
-                    Video: <input value={vid_Url} placeholder='youtube link/url'
-                                onChange={(e) => setVid_Url(e.target.value)}/>
-                </label>
-                <label>Date Updated: { dateModified }</label>
-            </div> 
-        
-       <div> Share Recipe|<input type='checkbox' onChange={(e) => {setShareRecipe(e.target.checked); console.log(shareRecipe);}}/> <button type="submit" id="add_recipe_btn">Post Recipe</button></div> 
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <div className='close'>
-        <button onClick={() => setShowAddRecipeModal(!showAddRecipeModal)}>Close</button>
-      </div>
+      <label className='input-box'>
+        <span>Tags (Optional):</span>
+          <input
+            type="text"
+            value={tags}
+            placeholder="e.g., StreetFood, FastFood"
+            onChange={(event) => setTags(event.target.value)}
+          />
+      </label>
     </div>
+
+    <div className='recipe-details'>
+      
+        <label className="input-box">
+          <span>Ingredients:</span>
+          <input
+            value={newIngredient}
+            placeholder="Ingredient"
+            onChange={(event) => setNewIngredient(event.target.value)}
+          />
+          <button onClick={handleAddIngredient}>Add Ingredient</button>
+          <ul>
+            {ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+        </label>
+     
+
+      
+        <label className='input-box'>Measurements:
+          <input
+            value={newMeasure}
+            placeholder="Measurement for Ingredient"
+            onChange={(event) => setNewMeasure(event.target.value)}
+          />
+          <button onClick={handleAddMeasurement}>Add Measurement</button>
+          <ul>
+            {measurements.map((measure, index) => (
+              <li key={index}>{measure}</li>
+            ))}
+          </ul>
+        </label>
+            
+    </div>
+
+    <div className="instructions-section">
+        <label>Instructions:</label>
+        <input
+          value={newInstruction}
+          placeholder={`Step ${instructions.length + 1}`}
+          onChange={(event) => setNewInstruction(event.target.value)}
+        />
+        <button onClick={handleAddInstruction}>Add Instruction</button>
+        <pre>{stringifyInstructions()}</pre>
+    </div>
+
+    <div className='recipe-details'>
+      <label className='input-box'>
+        <span>Preparation Time:</span>
+        <input
+          value={prepTime}
+          placeholder="e.g., 0 Hours: 20 Mins"
+          onChange={(e) => setPrepTime(e.target.value)}
+        />
+      </label>
+
+      <label className='input-box'>
+        <span>Cooking Time:</span>
+        <input
+          value={cookTime}
+          placeholder="e.g., 0 Hours: 30 Mins"
+          onChange={(e) => setCookTime(e.target.value)}
+        />
+      </label>
+
+      <label className='input-box'>
+        Servings:
+        <input
+          value={servings}
+          placeholder="e.g., 4"
+          onChange={(e) => setServings(e.target.value)}
+        />
+      </label>
+    </div>
+
+    <div className='recipe-details'>
+      <label className='input-box'>
+           
+        <button onClick={toggleUseUrl}>
+            {useUrl ? 'Switch to File Upload' : 'Switch to URL Input'}
+        </button>      
+
+        {useUrl ? (
+          <>
+            <br />
+            <label>Enter Image URL:</label>
+            <input
+              type="text"
+              value={imageUrl}
+              onChange={handleUrlChange}
+              placeholder="Enter image URL"
+            />
+          </>
+        ) : (
+          <>
+            <br />
+            <input type="file" onChange={handleImageChange} />
+          </>
+        )}
+      </label>
+
+      <label className='input-box'>
+        {imageUrl && <img src={imageUrl} alt="Recipe" width="200" height="200" />}
+      </label>
+    </div>
+
+    <div className='recipe-details'>
+      <label className='input-box'>
+        <span>Source:</span>
+        <input value={source} placeholder="Source link" onChange={(e) => setSource(e.target.value)} />
+      </label>
+    
+      <label className='input-box'>
+        <span>Video (Optional):</span>
+        <input value={vid_Url} placeholder="YouTube video link" onChange={(e) => setVid_Url(e.target.value)} />
+      </label>
+    </div>
+
+    <div>
+      <label>Share Recipe:</label>
+      <input
+        type="checkbox"
+        onChange={(e) => setShareRecipe(e.target.checked)}
+      />
+    </div>
+
+    <button type="submit">Post Recipe</button>
+
+    {error && <p style={{ color: 'red' }}>{error}</p>}
+  </form>
+
+  <div className="close">
+    <button onClick={() => setShowAddRecipeModal(!showAddRecipeModal)}>Close</button>
+  </div>
+</div>
+
   );
 };
 
