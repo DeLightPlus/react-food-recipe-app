@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SaveUpdatedRecipe from './SaveUpdatedRecipe.js'; // Assuming you have this function
+import SaveUpdatedRecipe from './SaveUpdatedRecipe.js'; // Assuming this function exists for saving the recipe
 
 const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) => {
   const [updatedRecipe, setUpdatedRecipe] = useState({
@@ -7,15 +7,18 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
     strCategory: data.strCategory,
     strArea: data.strArea,
     strInstructions: data.strInstructions,
+    strTags: data.strTags || '',
+    strDrinkAlternate: data.strDrinkAlternate || '',
   });
 
   const [ingredients, setIngredients] = useState(
-    Object.keys(data).filter(key => key.startsWith('strIngredient'))
+    Object.keys(data)
+      .filter((key) => key.startsWith('strIngredient'))
       .map((key, index) => ({
         ingredient: data[key],
-        measure: data[`strMeasure${index + 1}`],
+        measure: data[`strMeasure${index + 1}`] || '',
       }))
-  )
+  );
 
   const handleUpdateRecipe = async () => {
     const isUpdated = await SaveUpdatedRecipe(data.idMeal, updatedRecipe, ingredients);
@@ -36,15 +39,27 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
     setIngredients(newIngredients);
   };
 
+  const addIngredientField = () => {
+    setIngredients([...ingredients, { ingredient: '', measure: '' }]);
+  };
+
+  const removeIngredientField = (index) => {
+    const newIngredients = [...ingredients];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
+  };
+
   return (
     <div className={`Edit-Recipe-Modal`} id={`${showEditRecipeModal ? 'active' : ''}`}>
-      
-      <button className="close" onClick={() => setShowEditRecipeModal(!showEditRecipeModal)}>
+      <button
+        className="close"
+        onClick={() => setShowEditRecipeModal(!showEditRecipeModal)}
+      >
         <div className="icn">&#11178;</div>
       </button>
 
       <div className="info">
-        <div style={{display:'flex', justifyContent:"center"}}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
             <label>Recipe Name:</label>
             <input
@@ -71,36 +86,54 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
               onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, strArea: e.target.value })}
             />
           </div>
-        </div>  
-        <div style={{display:'flex', justifyContent:"center"}}>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div>
-            <label htmlFor="">Tags</label>
-            <input/>
+            <label htmlFor="">Tags:</label>
+            <input
+              type="text"
+              value={updatedRecipe.strTags}
+              onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, strTags: e.target.value })}
+            />
           </div>
 
           <div>
-            <label htmlFor="">Drink Alternative</label>
-            <input/>
+            <label htmlFor="">Drink Alternative:</label>
+            <input
+              type="text"
+              value={updatedRecipe.strDrinkAlternate}
+              onChange={(e) => setUpdatedRecipe({ ...updatedRecipe, strDrinkAlternate: e.target.value })}
+            />
           </div>
-        </div>      
+        </div>
 
         <div className="ingredients">
           <h4>Ingredients</h4>
-          {
-            ingredients.map((ingred, index) => (
-            <div key={index}>
+          {ingredients.map((ingred, index) => (
+            <div key={index} style={{ display: 'flex', marginBottom: '8px' }}>
               <input
                 type="text"
                 value={ingred.ingredient}
                 onChange={(e) => handleIngredientChange(index, e.target.value)}
+                placeholder="Ingredient"
+                style={{ flex: 1, marginRight: '8px' }}
               />
               <input
                 type="text"
                 value={ingred.measure}
                 onChange={(e) => handleMeasureChange(index, e.target.value)}
+                placeholder="Measurement"
+                style={{ flex: 1 }}
               />
+              <button type="button" onClick={() => removeIngredientField(index)}>
+                Remove
+              </button>
             </div>
           ))}
+          <button type="button" onClick={addIngredientField}>
+            Add Ingredient
+          </button>
         </div>
 
         <div className="instructions">
@@ -111,15 +144,10 @@ const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) 
           />
         </div>
 
-        <div>
-          <label></label>
-        </div>        
-      </div>
-
-      <button className="update" onClick={handleUpdateRecipe}>
+        <button className="update" onClick={handleUpdateRecipe}>
           <div className="icn">Update Recipe</div>
         </button>
-    
+      </div>
     </div>
   );
 };

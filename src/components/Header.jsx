@@ -119,7 +119,8 @@ const Header = (
       { 
         loggedInUser && 
         <li className="nav-item">
-          <Link to="/myRecipes" className={`nav-link ${showMyRecipeList ? "active":""}`}
+          
+          <Link to="/Recipes" className={`nav-link ${showMyRecipeList ? "active":""}`}
               onClick={() => {
                 setNavState("myRecipe")
                 setShowMyRecipeList(true)}
@@ -130,12 +131,11 @@ const Header = (
         </li>          
       }
 
-      {
-          showMyRecipeList &&       
+      {              
           <>
             <li className="nav-item">
               <Link className="nav-link" 
-                onClick={() => setShowMyFavouredRecipes(true)}> MyFavoured </Link>
+                onClick={() => setShowMyFavouredRecipes(true)}> My Favoured </Link>
             </li>
 
             <li className="nav-item">

@@ -10,12 +10,12 @@ const SaveUpdatedRecipe = async (idMeal, updatedRecipe, ingredients) => {
     
     if(user !== '' || user !== null)
     {
-      const user_id = JSON.parse(user).id;
-      console.log(loggedInUser);
+      const user_id = JSON.parse(user).user_id;
+      console.log(user_id);
       
-      if(loggedInUser !== null)
+      if(user_id !== null)
       {
-        const response = await axios.put(`https://localhost:8000/favoured-recipes?user_id${user_id}&recipe_id=${idMeal}`, 
+        const response = await axios.put(`https://localhost:8000/favoured-recipes?user_id=${user_id}&recipe_id=${idMeal}`, 
           {
             strMeal: updatedRecipe.strMeal,
             strCategory: updatedRecipe.strCategory,

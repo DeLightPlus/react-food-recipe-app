@@ -4,7 +4,7 @@ import Dropdown from "../Dropdown.jsx"
 
 import '../styles.css';
 
-const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList, myFavouredRecipes=[] }) =>
+const Meal = ({ myRecipeList, setMyRecipeList, myFavouredRecipes=[] }) =>
 {
   // console.log('_Recipes:', recipeList);
   // console.log('_myRecipes:', myRecipeList);

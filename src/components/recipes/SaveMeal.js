@@ -9,9 +9,7 @@ export default async function SaveFavoredRecipe(recipeId) {
     }
 
     const userId = userData.user_id;
-    const apiRecipeResponse = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`);
-    const apiRecipe = apiRecipeResponse.data.meals[0];
-
+    
     const favouredRecipe = {
       user_id: userId,
       recipe_id: recipeId,
