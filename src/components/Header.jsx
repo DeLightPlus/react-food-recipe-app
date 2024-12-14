@@ -1,9 +1,8 @@
 import './styles.css';
-import SearchRecipe from './SearchRecipe';
+import SearchRecipe from './recipes/SearchRecipe';
 
 import  { useEffect } from 'react';
 import {  Link, useNavigate } from 'react-router-dom';
-import Dropdown from './Dropdown';
 
 const Header = (
   {
@@ -24,7 +23,7 @@ const Header = (
     {
       if(!loggedInUser )
       {
-        navigate('/')
+        // navigate('/')
       }
       else
       {
@@ -125,7 +124,11 @@ const Header = (
                 
                 setShowMyRecipeList(true)}
               }>
+<<<<<<< HEAD
             My Recipe Book {">"}
+=======
+            RecipesBook {">"}
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
             {/* <small className="icn">&#127857;</small> */}
           </Link>
         </li>          
@@ -141,7 +144,7 @@ const Header = (
 
             <li className="nav-item">
               <Link className="nav-link" 
-                onClick={() => setShowAddRecipeModal(true)}> Add-Recipes </Link>
+                onClick={() => setShowAddRecipeModal(true)}> Add-New-Recipes </Link>
             </li>          
           </>
         }
@@ -156,7 +159,7 @@ const Header = (
           handleSearch={handleSearch} 
         />
       } 
-      <Dropdown />
+      
     </div>
  </>
   );

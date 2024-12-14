@@ -14,8 +14,8 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  border-bottom: 1px solid rgb(165, 165, 165);
-  border-top: 1px solid rgb(151, 151, 151);
+  /* border-bottom: 1px solid rgb(165, 165, 165); */
+  /* border-top: 1px solid rgb(151, 151, 151); */
 }
 
 .nav-link.active
@@ -71,7 +71,8 @@
   
   font-size: 1.15rem;
   font-weight: 500;
-  background: red;
+  background: rgb(62, 162, 255);
+  color: white;
   width: 86px;
   padding: 2px;
 
@@ -195,6 +196,29 @@ ul.main
   overflow: hidden;
   height: 256px;
 }
+
+.fav-list
+{
+  
+}
+
+.fav-list li
+{
+  margin-bottom: 10px;
+  border-bottom: wheat solid 1px;
+}
+
+.recipe-container
+{
+  width: 100%;
+  display: flex;
+}
+
+.my_recipes
+{
+  flex: 1;
+}
+
 
 .recipe-card
 {
@@ -354,7 +378,7 @@ ul.main
   flex-direction: column;
 
   position: fixed;  
-  top: 10%;
+  top: 7%;
   left: 0;
   width: 99svw;
   height: 87svh;
@@ -468,6 +492,11 @@ ul.main
   font-size: 23px;
 }
 
+.instruct-container
+{
+  margin-top: 32px;
+}
+
 .save
 {
   position: absolute;
@@ -566,21 +595,38 @@ ul.main
 .AddRecipe, .Edit-Recipe-Modal
 {
   position: fixed;
-  top: 10%;
-  left: 1%; 
+  top: 7%;
+  left: 0.5%; 
 
   width: 99%;
+<<<<<<< HEAD
   height: 90%; 
+=======
+  height: 92%; 
+  justify-self: center;
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
   
   margin-bottom: 64px;
   padding: 32px;
-  background: linear-gradient(90deg, #676767, #d9d9d9, #dbdbdb, #f1f1f1, #f9f9f9, #ffffffb2);
+  background: linear-gradient(90deg, #6767675b, #d9d9d9, #dbdbdb, #f1f1f1, #f9f9f9, #ffffffb2);
   z-index: 150;
   overflow-y: scroll;
 }
 
+<<<<<<< HEAD
 .AddRecipe form, .Edit-Recipe-Modal form
+=======
+ h2
+{
+  color: #0f0f0f;
+  margin-bottom: 8px;
+}
+
+.AddRecipe form
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
 { 
+  padding: 16px;
+  justify-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -591,6 +637,7 @@ ul.main
 }
 
 
+<<<<<<< HEAD
 .recipe-details
 {
   display: flex;
@@ -600,6 +647,36 @@ ul.main
   width: 100%;
   padding: 16px;
   margin-bottom: 16px;
+=======
+.add-row
+{  
+  display: flex;
+  width: 86%;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.add-row .add-column button
+{
+  width: 90%;
+}
+
+.add-column
+{  
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;  
+  margin: 4px;
+  text-align: center;
+  gap: 4;
+}
+.add-column label
+{
+  display: flex;
+  justify-content: space-between;
+  background: #2a2b2b;
+  padding: 16px;
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
 }
 
 .recipe-details .input-box
@@ -609,6 +686,20 @@ ul.main
   margin: 8px;
 }
 
+<<<<<<< HEAD
+=======
+
+.add-column#img-src-vid img
+{
+  width: 128px;
+  height: 128px;
+}
+
+.add-column#ingredients, #measures
+{
+  max-width: 300px;
+}
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
 
 .recipe-details .input-box input
 {
@@ -653,6 +744,13 @@ ul.main
 }
 
 
+<<<<<<< HEAD
+=======
+#add_recipe_btn
+{
+  width: 258px;
+}
+>>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
 
 .Edit-Recipe-Modal
 {
