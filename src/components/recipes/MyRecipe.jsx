@@ -4,29 +4,54 @@ import '../styles.css';
 import AddRecipe from "./AddRecipe.jsx";
 
 const MyRecipe = ({ 
-   showMyRecipeList, showMyFavoured,
-   recipeList, 
-   myRecipeList,
-   myFavouredRecipes ,
-   showAddRecipeModal, setShowAddRecipeModal
-   }) => {
-  console.log('_Recipes:', recipeList);
+  showMyFavoured,
+  myRecipeList, setMyRecipeList,
+  myFavouredRecipes, setMyFavouredRecipes,
+  showAddRecipeModal, setShowAddRecipeModal
+  }) => {
+
+
   console.log('_myRecipes:', myRecipeList);
-  {console.log("myFave:", myFavouredRecipes)}   
+  console.log("myFave:", myFavouredRecipes)
+
   return (
     <div className="recipe-container">
       {
         showAddRecipeModal &&
         <AddRecipe 
           showAddRecipeModal={showAddRecipeModal}
-          setShowAddRecipeModal={setShowAddRecipeModal}/>
-      }      
+          setShowAddRecipeModal={setShowAddRecipeModal}
+        />
+      }   
 
+      <div className="fav-recipes">
+      { showMyFavoured && <h2> Favoured Recipes </h2> }
+        <ul className="fav-list" id="my_fav_recipes">     
+        
+        { 
+          myFavouredRecipes === 0 ?
+            (<>No Recipes in your Favoured Recipes</>): 
+            (          
+                showMyFavoured &&
+                <>
+                
+                {myFavouredRecipes.map((recipe) =>    
+                  (
+                    <li key={recipe.id}>
+                      <MealItem data={recipe.recipe} isFav={true}/>
+                    </li> 
+                  ))
+                } 
+               
+                </>          
+            )
+        } 
+        </ul>
+      </div>
 
       <div className="my_recipes">   
         <h2> My Recipes ({myRecipeList.length}) </h2>
-        {   
-             
+        {                
             <ul className="main" id="my_recipes"> 
             {   
                 myRecipeList.length === 0 ? 
@@ -49,28 +74,7 @@ const MyRecipe = ({
       </div>  
 
       <aside>
-        { showMyFavoured && <h2> Favoured Recipes </h2> }
-        <ul className="fav-list" id="my_fav_recipes">     
         
-        { 
-          myFavouredRecipes === 0 ?
-            (<>No Recipes in your Favoured Recipes</>): 
-            (          
-                showMyFavoured &&
-                <>
-                
-                {myFavouredRecipes.map((recipe) =>    
-                  (
-                    <li key={recipe.id}>
-                              <MealItem data={recipe.recipe} isFav={true}/>
-                          </li> 
-                        ))
-                } 
-               
-                </>          
-            )
-        } 
-        </ul>
       </aside>
     </div>
   );

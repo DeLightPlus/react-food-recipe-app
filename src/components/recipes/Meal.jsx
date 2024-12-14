@@ -4,12 +4,16 @@ import Dropdown from "../Dropdown.jsx"
 
 import '../styles.css';
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/components/Meal.jsx
 const Meal = ({ myRecipeList, setMyRecipeList, myFavouredRecipes=[] }) =>
 { 
   console.log('_myRecipes:', myRecipeList);
 =======
 const Meal = ({ showMyRecipeList, recipeList = [], myRecipeList = [], setMyRecipeList, myFavouredRecipes=[] }) =>
+=======
+const Meal = ({ myRecipeList, setMyRecipeList, myFavouredRecipes=[] }) =>
+>>>>>>> 3cda761f12250f4568019f4e52bea191ddf3f7c3
 {
   // console.log('_Recipes:', recipeList);
   // console.log('_myRecipes:', myRecipeList);

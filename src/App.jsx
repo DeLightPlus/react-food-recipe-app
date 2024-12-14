@@ -10,6 +10,7 @@ import addRecipe from './components/recipes/AddRecipe.jsx';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+
 import Header from './components/Header.jsx';
 import HomePage from './components/Home.jsx';
 
@@ -27,6 +28,7 @@ function FoodRecipeApp()
 
   const [showMyRecipeList, setShowMyRecipeList] = useState(false);
   const[myRecipeList, setMyRecipeList]=useState([]); 
+  const[recipeList, setRecipeList]=useState([]); 
 
   const [showAddRecipeModal, setShowAddRecipeModal] = useState(false);
 
@@ -45,7 +47,8 @@ function FoodRecipeApp()
           
           if(loggedInUser !== null)
           {
-            console.log('logged in: ', loggedInUser.isLoggedIn);  
+            console.log('logged in: ', loggedInUser.isLoggedIn);
+            // setShowLoginModal(false);  
             handleMyRecipeList(); 
             handleMyFavouredRecipes(loggedInUser.user_id);      
           }            
@@ -57,16 +60,14 @@ function FoodRecipeApp()
   {
     const url = `http://localhost:8000/recipes`;
     axios.get(url)
-    .then(response => {
-       setMyRecipeList(response.data); 
-       console.log('myList', response.data) })
+    .then(response => { setMyRecipeList(response.data); console.log('myList',response.data) })
     .catch(error => { console.error(error);  });    
 
   }
 
   const handleMyFavouredRecipes = (user_Id) =>
     {
-      console.log('app.73 id:', user_Id);
+      // console.log('app.73 id:', user_Id);
       
       const url = `http://localhost:8000/favoured-recipes?user_id=${user_Id}`;
       axios.get(url)
@@ -81,11 +82,22 @@ function FoodRecipeApp()
 
   const searchRecipe = () => 
   {
-    const url = `${searchInput}`;   
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+    axios.get(url)
+      .then(response => 
+      {
+        setRecipeList(response.data.meals);
+        // console.log(response.data.meals);
+        setSearchInput("");
+        setShowMyRecipeList(false);
+        setShowMyFavouredRecipes(false);
+      })
+      .catch(error => { console.error(error); });
   }
     
   const handleSearch = (e) =>
   {   
+    e.preventDefault();
     if(e.key == "Enter" || e.type == "click")
     {
       searchRecipe();     
@@ -165,24 +177,12 @@ function FoodRecipeApp()
             )
           }
 
-            <Route path='/' element={<HomePage />} />             
-            <Route path='/Recipes' element={
-              <Meal 
-                showMyRecipeList={showMyRecipeList}
-                recipeList={recipeList}                             
-                myRecipeList={myRecipeList} 
-                setMyRecipeList={setMyRecipeList} 
-                myFavouredRecipes = {myFavouredRecipes}
-              />}
-            />           
-                                   
-                                   {console.log(myFavouredRecipes)}
-            <Route path="/myRecipes" element={
-              
-              <MyRecipe
-                showMyRecipeList={showMyRecipeList}
-                showMyFavoured={showMyFavoured}
-                recipeList={recipeList}                      
+            <Route path='/' element={<HomePage myRecipeList={myRecipeList}/>} /> 
+
+            {console.log(myFavouredRecipes)}
+            <Route path="/Recipes" element={              
+              <MyRecipe                
+                showMyFavoured={showMyFavoured}                  
                 myRecipeList={myRecipeList}               
                 myFavouredRecipes = { myFavouredRecipes }                
                 showAddRecipeModal={showAddRecipeModal}

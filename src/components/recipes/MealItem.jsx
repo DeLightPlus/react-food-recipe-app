@@ -63,7 +63,7 @@ const MealItem = ({data, isFav, editable}) =>
                 ):(
                     <div className="recipe-card" > 
                         {
-                            (isFav && editable) ? (
+                            (isFav) ? (
                             <button className="edit"
                                 onClick={() => { setShowEditRecipeModal(true)  }}>                    
                                 <div className="icn">📝</div>{/* &#128221; ✏️ */}
@@ -76,9 +76,7 @@ const MealItem = ({data, isFav, editable}) =>
                             <strong style={{textAlign:'start', padding:'4px 8px'}}>{data.strMeal} ({data.strArea} Food)</strong>
                             
                             <small style={{textAlign:'start', padding:'4px 8px'}}>{data.strCategory} </small>
-                            <img src={data.strMealThumb} alt="🍱"/>               
-                            
-                            
+                            <img src={data.strMealThumb} alt="🍱"/>     
                         </div>  
 
                         <div className="h-group">
@@ -122,8 +120,8 @@ const MealItem = ({data, isFav, editable}) =>
                             
                             <button className="like"
                                 onClick={() => { SaveRecipe(data.idMeal) }}>                    
-                                <div className="icn">{ !isFav ? <>❤️</> : <>🌟</>}</div> 
-                                    {/*💕👌👍✨♥️*/}
+                                <div className="icn">{ !isFav ? <>⭐</> : <>🌟</>}</div> 
+                                    {/*💕👌❤️👍✨♥️*/}
                             </button>                            
                         }
                     </div>  

@@ -7,6 +7,7 @@ const SaveUpdatedRecipe = async (idMeal, updatedRecipe, ingredients) =>
     let user = sessionStorage.getItem('user');
     console.log(user);
     
+<<<<<<< HEAD
     if (user && user !== null) {
       const user_id = JSON.parse(user).user_id;
       console.log(user_id);  // Corrected from `loggedInUser` to `user_id`
@@ -22,6 +23,16 @@ const SaveUpdatedRecipe = async (idMeal, updatedRecipe, ingredients) =>
         // Make the PUT request to update the recipe
         const response = await axios.put(
           `https://localhost:8000/favoured-recipes?user_id=${user_id}&recipe_id=${idMeal}`, 
+=======
+    if(user !== '' || user !== null)
+    {
+      const user_id = JSON.parse(user).user_id;
+      console.log(user_id);
+      
+      if(user_id !== null)
+      {
+        const response = await axios.put(`https://localhost:8000/favoured-recipes?user_id=${user_id}&recipe_id=${idMeal}`, 
+>>>>>>> 3cda761f12250f4568019f4e52bea191ddf3f7c3
           {
             strMeal: updatedRecipe.strMeal,
             strCategory: updatedRecipe.strCategory,
