@@ -67,14 +67,13 @@
 }
 
 .nav-item#login-link
-{
-  
+{  
   font-size: 1.15rem;
   font-weight: 500;
   background: rgb(62, 162, 255);
   color: white;
   width: 86px;
-  padding: 2px;
+  padding: 4px;
 
 } 
 
@@ -103,6 +102,7 @@
   display: flex;
   align-items: center;
   width: 56%;
+  max-width: 400px;
   margin: 2px 0px 2px 0px;
   padding: 0.1rem;
   border: 1px solid #ddd;
@@ -277,8 +277,8 @@ ul.main
   flex-direction: column;
   gap: 2px;
   position: absolute;
-  top: 30px;
-  transform: scale(0.9);
+  top: 16px;
+  /* transform: scale(0.9); */
   /* transition: opacity 0.3s, height 0.3s, transform 0.3s; */
   background: linear-gradient(transparent, wheat, wheat, wheat, wheat);
   width: 100%;
@@ -325,11 +325,11 @@ ul.main
   grid-template-rows: repeat(10, 1fr);
   gap: 2px;
 
-  padding: 2px;
-  margin: 0px 10px 0px 10px;
+  /* padding: 2px; */
+  /* margin: 0px 10px 0px 10px; */
   background: #58585850;
   height: 128px;
-  width: 256px;
+  /* width: 256px; */
   /* border-bottom: 1px solid gray; */
   overflow-y: scroll;
   scrollbar-width: none;
@@ -600,7 +600,7 @@ ul.main
 .AddRecipe, .Edit-Recipe-Modal
 {
   position: fixed;
-  top: 10%;
+  top: 9.5%;
   left: 1%; 
 
   width: 99%;
@@ -610,8 +610,12 @@ ul.main
   margin-bottom: 64px;
   padding: 32px;
   background: linear-gradient(90deg, #676767, #d9d9d9, #dbdbdb, #f1f1f1, #f9f9f9, #ffffffb2);
+  border-left: black 4px solid;
+  
   z-index: 150;
   overflow-y: scroll;
+  scrollbar-width: none;
+
 }
 
  h2
@@ -633,8 +637,12 @@ ul.main
   gap:0;
 }
 
+.recipe-details
+{
+  width: 98%;
+}
 
-.add-row
+.recipe-details#ingreNmeasure
 {  
   display: flex;
   width: 86%;
@@ -647,23 +655,14 @@ ul.main
   width: 90%;
 }
 
-.add-column
+.input-box
 {  
   display: flex;
   flex-direction: column;
   min-width: 200px;  
   margin: 4px;
-  text-align: center;
+  text-align: start;
   gap: 4;
-}
-.add-column label
-{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background: rgba(46, 46, 46, 0.562);
-  width: 100%;
-  padding: 16px;
 }
 
 .add-column#img-src-vid

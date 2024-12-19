@@ -1,18 +1,17 @@
 
 import '../styles.css';
-import './SaveFavoured.js';
+import '../../utils/SaveFavoured.js';
 
-import axios from 'axios';
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import RecipeModal from './RecipeModal.jsx';
-import SaveFavoredRecipe from './SaveFavoured.js';
-import SaveRecipe from './SaveRecipe.js';
-import { Link } from 'react-router-dom';
+import SaveFavoredRecipe from '../../utils/SaveFavoured.js';
+import SaveRecipe from '../../utils/SaveRecipe.js';
+
 import EditRecipeModal from './EditRecipeModal.jsx';
 
-const MealItem = ({data, isFav, editable}) =>
-{   
-
+const MealItem = ({data, isFav, canEdit}) =>
+{  
     let user = JSON.parse(sessionStorage.getItem('user'))
     let userId = null;
     if(user) 
@@ -31,7 +30,7 @@ const MealItem = ({data, isFav, editable}) =>
         {
             const checkFav = async () =>
             {              
-                console.log('uid',userId, isFav);
+                console.log('uid', userId, isFav);
             }
             checkFav();            
 
@@ -73,7 +72,7 @@ const MealItem = ({data, isFav, editable}) =>
                         }                       
 
                         <div className ="info" >
-                            <strong style={{textAlign:'start', padding:'4px 8px'}}>{data.strMeal} ({data.strArea} Food)</strong>
+                            <strong style={{textAlign:'start', padding:'4px 8px'}}>{data.strMeal} </strong>
                             
                             <small style={{textAlign:'start', padding:'4px 8px'}}>{data.strCategory} </small>
                             <img src={data.strMealThumb} alt="🍱"/>     
@@ -87,19 +86,19 @@ const MealItem = ({data, isFav, editable}) =>
                                         Ingredients
                                 </button>
                             }
-                            <button className='link-item'
+                            {/* <button className='link-item'
                                 onClick={() => { 
                                     setShowIngredients(false);
                                     setShowRecipeDetails(true); 
                                     }}>
                                 See full recipe
-                            </button>
+                            </button> */}
                         </div> 
                         
                         {
                             showIngredients && (
                             <div className="ingredients">
-                                <button onClick={() => setShowIngredients(!showIngredients) }> {`< Ingredients`}</button>
+                                <button onClick={() => setShowIngredients(!showIngredients) }> {`↩`}</button>
                                 <div className="ingred-info">  
                                     <>
                                         {
@@ -112,7 +111,7 @@ const MealItem = ({data, isFav, editable}) =>
                                         }
                                     </>
                                 </div>
-                                <p>visit source website: <a href={data.strSource}> Link </a></p>
+                                <p>Source: <a href={data.strSource}> Link </a></p>
                             </div> )
                         }                        
 

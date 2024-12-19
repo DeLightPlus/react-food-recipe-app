@@ -62,13 +62,15 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) =>
                         onChange={(e) => setPassword(e.target.value)}                        
                     />
 
+                    <label><input type="checkbox" /> Remember Password.</label>
+
                     <button type="submit" onClick={handleLogin}>
-                        Login
+                      Sign In
                     </button>
 
                     <button type="button" className='close-btn-modal'
                         onClick={() => { setShowLoginModal(!showLoginModal); navigate('/') }}>
-                        <div className="icn">&#10060;</div>
+                        <div className="icn">❌</div>
                     </button>
 
                     {/* <div>click the link to <a>Register</a></div> */}

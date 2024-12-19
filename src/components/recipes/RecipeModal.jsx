@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SaveFavoredRecipe from './SaveFavoured.js';
+import SaveFavoredRecipe from '../../utils/SaveFavoured.js';
 import axios from 'axios';
 
 const RecipeModal = ({ data, ingredients, showRecipeDetails, setShowRecipeDetails }) => 

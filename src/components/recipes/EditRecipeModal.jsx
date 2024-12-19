@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SaveUpdatedRecipe from './SaveUpdatedRecipe.js'; // Assuming this function exists for saving the recipe
+import SaveUpdatedRecipe from '../../utils/SaveUpdatedRecipe.js'; // Assuming this function exists for saving the recipe
 
 const EditRecipeModal = ({ data, showEditRecipeModal, setShowEditRecipeModal }) => {
   const [updatedRecipe, setUpdatedRecipe] = useState({

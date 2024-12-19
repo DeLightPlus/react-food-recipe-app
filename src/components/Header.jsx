@@ -5,18 +5,18 @@ import  { useEffect } from 'react';
 import {  Link, useNavigate } from 'react-router-dom';
 
 const Header = (
-  {
-    navState, setNavState,
+  {    
     showLoginModal, setShowLoginModal,
     isLoginModal, setModal, 
+
     loggedInUser, setLoggedInUser,
     searchInput, setSearchInput,
-    handleSearch,
+    handleSearch, 
+
     showMyRecipeList, setShowMyRecipeList,
     showMyFavoured, setShowMyFavouredRecipes,
     showAddRecipeModal, setShowAddRecipeModal
-  }) =>
-{
+  }) => {
   const navigate = useNavigate();
 
   useEffect(() => 
@@ -62,9 +62,9 @@ const Header = (
       <nav className="navbar"> 
           <ul className="nav-links">
             <li className="nav-item">
-              <a href="/Recipes" className="nav-link">
+              <Link to="/Recipes" className="nav-link">
                 RECIPES
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a href="#" className="nav-link">
@@ -85,7 +85,7 @@ const Header = (
             <div className="">
               <div className="nav-link" id="profile">  
                 <h2>{loggedInUser.username.substring(0, 1)}</h2>  
-              </div>
+              </div>              
             </div>
           </>       
                 
@@ -101,40 +101,12 @@ const Header = (
       }
     </header>
 
-    <div className="searchNfilter">
-      <ul className="nav-links" style={{alignSelf:'end'}}>
-
-      {/* <li className="nav-item">
-        <select onChange={(e) => { console.log('Category:', e.target.value); } } >
-            <option value=""> Category </option>
-            <option value="Miscellaneous">Miscellaneous</option>
-            <option value="Seafood">Seafood</option>
-            <option value="">Desset</option>
-            <option value="">Side</option>
-            <option value="">Beef</option>
-        </select>
-      </li> */}
-      
-
-      { 
-        loggedInUser && 
-        <li className="nav-item">
-          <Link to="/myRecipes" className={`nav-link ${showMyRecipeList ? "active":""}`}
-              onClick={() => {
-                
-                setShowMyRecipeList(true)}
-              }>
-<<<<<<< HEAD
-            My Recipe Book {">"}
-=======
-            RecipesBook {">"}
->>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
-            {/* <small className="icn">&#127857;</small> */}
-          </Link>
-        </li>          
-      }
-
-      {
+    
+    {
+      !showLoginModal &&
+      <div className="searchNfilter">
+      {/* <ul className="nav-links" style={{alignSelf:'end'}}>           
+              {
           showMyRecipeList &&       
           <>
             <li className="nav-item">
@@ -149,7 +121,7 @@ const Header = (
           </>
         }
 
-      </ul>
+      </ul> */}
       
       { 
         !showAddRecipeModal && 
@@ -160,7 +132,8 @@ const Header = (
         />
       } 
       
-    </div>
+      </div>
+    }
  </>
   );
 }

@@ -55,12 +55,12 @@ const RegisterModal = ({ showLoginModal, setShowLoginModal }) =>
                     />
                     <div><input type="checkbox" /> subscribe to recieve recipe updates.</div>
                     <button type="submit" onClick={ handleRegistration }>
-                        Signup
+                        Sign Up
                     </button>
 
                     <button type="button" className='close-btn-modal'
                         onClick={() => { setShowLoginModal(!showLoginModal); navigate('/'); }}>
-                        <div className="icn">&#10060;</div>
+                        <div className="icn">❌</div>
                     </button>
 
                     {/* <div>click the link to <Link >Register</Link></div> */}

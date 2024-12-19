@@ -3,200 +3,178 @@ import './App.css';
 import Navbar from './components/Header.jsx';
 import LoginModal from './components/auth/LoginModal.jsx';
 import RegisterModal from './components/auth/RegisterModal.jsx';
-import Meal from './components/recipes/Meal.jsx';
-import MyRecipe from './components/recipes/MyRecipe.jsx';
-import addRecipe from './components/recipes/AddRecipe.jsx';
+
+import RecipeComponent from './components/recipes/Recipes.jsx';
+
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from './components/Header.jsx';
 import HomePage from './components/Home.jsx';
 
-
-function FoodRecipeApp() 
-{  
+function FoodRecipeApp() {
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(sessionStorage.getItem('user')) || null);
 
-  const [navState, setNavState] = useState("")
+  const [viewMode, setViewMode] = useState('allRecipes'); // States: 'allRecipes', 'favouredRecipes', 'searchResults'
+  const [searchInput, setSearchInput] = useState('');
+  const [recipeList, setRecipeList] = useState([]);
+  const [favouredRecipes, setFavouredRecipes] = useState([]);
+
 
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [isLoginModal, setModal] = useState(true);  
-
-  const[searchInput,setSearchInput]=useState("");
-
-  const [showMyRecipeList, setShowMyRecipeList] = useState(false);
-  const[myRecipeList, setMyRecipeList]=useState([]); 
-  const[recipeList, setRecipeList]=useState([]); 
-
+  const [isLoginModal, setModal] = useState(false);
   const [showAddRecipeModal, setShowAddRecipeModal] = useState(false);
 
-  const [showMyFavoured, setShowMyFavouredRecipes] = useState(false); 
-  const[myFavouredRecipes, setMyFavouredRecipes]=useState([]);
+  // Effect hook to fetch all recipes from the API when the component mounts
+  useEffect(() => {
+    fetchAllRecipes();
+  }, []);
 
-  useEffect(() => 
-    {  
-        let user = sessionStorage.getItem('user')
-        console.log(user);
-        
-        if(user !== '' || user !== null)
-        {
-          setLoggedInUser(JSON.parse(user));
-          console.log(loggedInUser);
-          
-          if(loggedInUser !== null)
-          {
-            console.log('logged in: ', loggedInUser.isLoggedIn);
-            // setShowLoginModal(false);  
-            handleMyRecipeList(); 
-            handleMyFavouredRecipes(loggedInUser.user_id);      
-          }            
-          else console.log('no user loggedIn');               
-        }
-     }, []);
-
-  const handleMyRecipeList = () =>
-  {
-    const url = `http://localhost:8000/recipes`;
+  // Fetch all recipes from the server
+  const fetchAllRecipes = () => {
+    const url = `http://localhost:8000/recipes`; // Fetch all recipes
     axios.get(url)
-    .then(response => { setMyRecipeList(response.data); console.log('myList',response.data) })
-    .catch(error => { console.error(error);  });    
-
-  }
-
-  const handleMyFavouredRecipes = (user_Id) =>
-    {
-      // console.log('app.73 id:', user_Id);
-      
-      const url = `http://localhost:8000/favoured-recipes?user_id=${user_Id}`;
-      axios.get(url)
-      .then(response =>
-        { 
-          setMyFavouredRecipes(response.data); 
-          console.log('myFavList.response',response.data) 
-        })
-      .catch(error => { console.error(error);  });    
-  
-    }
-
-  const searchRecipe = () => 
-  {
-    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-    axios.get(url)
-      .then(response => 
-      {
-        setRecipeList(response.data.meals);
-        // console.log(response.data.meals);
-        setSearchInput("");
-        setShowMyRecipeList(false);
-        setShowMyFavouredRecipes(false);
+      .then(response => {
+        setRecipeList(response.data); // Store all recipes
+        console.log("res.data: ", response.data)
       })
-      .catch(error => { console.error(error); });
-  }
-    
-  const handleSearch = (e) =>
-  {   
+      .catch(error => {
+        console.error('Error fetching all recipes:', error);
+      });
+  };
+
+  // Handle fetching the list of favoured recipes for the logged-in user
+  const handleFavouredRecipes = () => {
+    if (loggedInUser) {
+      const url = `http://localhost:8000/favoured-recipes?user_id=${loggedInUser.user_id}`; // Fetch favoured recipes
+      axios.get(url)
+        .then(response => {
+          setFavouredRecipes(response.data); // Store favoured recipes
+        })
+        .catch(error => {
+          console.error('Error fetching favoured recipes:', error);
+        });
+    }
+  };
+
+  // Perform the search query for recipes using the local backend
+  const searchRecipe = () => {
+    if (searchInput.trim() !== '') {
+      const url = `http://localhost:8000/recipes?query=${searchInput}`; // Query the local API with search term
+      axios.get(url)
+        .then(response => {
+          setRecipeList(response.data); // Set search results
+          setSearchInput('');
+          setViewMode('searchResults');
+        })
+        .catch(error => {
+          console.error('Error searching recipes:', error);
+        });
+    }
+  };
+
+  // Handle search key press or click
+  const handleSearch = (e) => {
     e.preventDefault();
-    if(e.key == "Enter" || e.type == "click")
-    {
-      searchRecipe();     
-    }        
-  }
-  
+    if (e.key === 'Enter' || e.type === 'click') {
+      searchRecipe();
+    }
+  };
+
+  // Handle user logout
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    setLoggedInUser(null);
+    setViewMode('allRecipes');
+  };
 
   return (
-    <><BrowserRouter>
-      <div className="RecipeApp">        
-          <Header
-            navState={navState}
-            setNavState={setNavState}
+    <BrowserRouter>
+      <div className="RecipeApp">
+        <Navbar
+          showLoginModal={showLoginModal}
+          setShowLoginModal={setShowLoginModal}
+          isLoginModal={isLoginModal}
+          setModal={setModal}
 
-            showLoginModal={showLoginModal}
-            setShowLoginModal={setShowLoginModal}
-            isLoginModal={isLoginModal}
-            setModal={setModal}
+          loggedInUser={loggedInUser}
+          setLoggedInUser={setLoggedInUser}
 
-            loggedInUser={loggedInUser}
-            setLoggedInUser={setLoggedInUser}
-
-            searchInput={searchInput} 
-            setSearchInput={setSearchInput}
-            handleSearch={handleSearch}
-
-            showMyRecipeList={showMyRecipeList}
-            setShowMyRecipeList={setShowMyRecipeList}
-
-            showMyFavoured={showMyFavoured}
-            setShowMyFavouredRecipes={setShowMyFavouredRecipes}
-
-            showAddRecipeModal={showAddRecipeModal}
-            setShowAddRecipeModal={setShowAddRecipeModal}
-          />       
-
-        <main>        
-
-          <Routes>
-          { showLoginModal &&
-            (
-              isLoginModal ?    
-              (
-                < Route path='/login' 
-                  element={
-                    <LoginModal 
-                      showLoginModal={showLoginModal}
-                      setShowLoginModal={setShowLoginModal}
-                    />}
-                />
-              ) : (
-                < Route path='/register' 
-                  element={
-                  <RegisterModal 
-                      showLoginModal={showLoginModal}
-                      setShowLoginModal={setShowLoginModal}
-                  />} 
-                />
-              )
-<<<<<<< HEAD
-            ):( <> 
-                  <Route path="/Recipes" element={
-                    <MyRecipe                      
-                      showMyFavoured={showMyFavoured}                    
-                      myRecipeList={myRecipeList} 
-                      setMyRecipeList={setMyRecipeList}
-                      myFavouredRecipes = {myFavouredRecipes}
-                      setMyFavouredRecipes={setMyFavouredRecipes}
-                      showAddRecipeModal={showAddRecipeModal}
-                      setShowAddRecipeModal={setShowAddRecipeModal}  
-                    />}
-                  />                  
-                  
-                </>
-=======
->>>>>>> c8c54b8b8e127dbbd0dd8bda0453cffbe3cd317e
-            )
-          }
-
-            <Route path='/' element={<HomePage myRecipeList={myRecipeList}/>} /> 
-
-            {console.log(myFavouredRecipes)}
-            <Route path="/Recipes" element={              
-              <MyRecipe                
-                showMyFavoured={showMyFavoured}                  
-                myRecipeList={myRecipeList}               
-                myFavouredRecipes = { myFavouredRecipes }                
-                showAddRecipeModal={showAddRecipeModal}
-                setShowAddRecipeModal={setShowAddRecipeModal}  
-              />}
-            />  
-                       
-          </Routes>        
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}          
+          handleSearch={handleSearch}
           
-        </main> 
-      </div>      
-      </BrowserRouter>    
-    </>
-  )
+          setShowAddRecipeModal={setShowAddRecipeModal}
+          handleLogout={handleLogout}
+        />
+        <main>
+          <Routes>           
+            
+            <Route path="/" 
+              element={ 
+              <HomePage 
+                recipeList={ recipeList }  
+                loggedInUser={loggedInUser}
+                showAddRecipeModal={showAddRecipeModal} 
+                setShowAddRecipeModal={setShowAddRecipeModal} 
+              /> 
+            }/>           
+
+            {/* Login/Register Modals */}
+            {!loggedInUser ? (
+              <>
+                <Route path="/login" element={ 
+                  <LoginModal 
+                    showLoginModal={showLoginModal}
+                    setShowLoginModal={setShowLoginModal} 
+                  /> 
+                }/>
+
+                <Route path="/register" element={
+                  <RegisterModal 
+                    showLoginModal={showLoginModal}
+                    setShowLoginModal={setShowLoginModal} 
+                  /> 
+                }/>
+
+
+              </>
+            ) : (
+              <>
+                <Route path="/" 
+                  element={ 
+                  <HomePage 
+                    recipeList={ recipeList }  
+                    
+                    loggedInUser={loggedInUser}
+                    showAddRecipeModal={showAddRecipeModal} 
+                    setShowAddRecipeModal={setShowAddRecipeModal} 
+                  /> 
+                  } 
+                />  
+                {/* Favoured Recipes */}
+                {/* {viewMode === 'favouredRecipes' && (
+                  <Route
+                    path="/favoured-recipes"
+                    element={<MyRecipe recipeList={favouredRecipes} />}
+                  />
+                )} */}
+
+                {/* Search Results */}
+                {/* {viewMode === 'searchResults' && (
+                  <Route
+                    path="/search-results"
+                    element={<Meal recipeList={recipeList} />}
+                  />
+                )} */}
+              </>
+            )}
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default FoodRecipeApp;
